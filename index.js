@@ -8,13 +8,16 @@ const repositor_location = require('./repository/location.js');
 const context_common = require('./context.common.js');
 const restService = express();
 
-
 restService.use(bodyParser.json());
  
 // set the view engine to ejs
 restService.set('view engine', 'ejs');
 
 // use res.render to load up an ejs view file
+
+
+restService.use('/static', express.static('assets'))
+
 
 // index page 
 restService.get('/search', function(req, res) {

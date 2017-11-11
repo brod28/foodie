@@ -1,0 +1,40 @@
+var search=function() {
+    var url="/search?name="+getSelectionText();
+    document.getElementById("placeholder").innerHTML ="Loading...";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("placeholder").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
+function reviews(url) {
+    document.getElementById("reviews_placeholder").innerHTML ="Loading...";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("restaurant_placeholder").style.visibility = "hidden";
+            document.getElementById("reviews_placeholder").innerHTML =this.responseText;
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+function back(section) {
+    if(section="reviews"){
+        document.getElementById("restaurant_placeholder").style.visibility = "visible";
+        document.getElementById("reviews_placeholder").innerHTML ="";
+    }
+}
+function getSelectionText() {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        text = document.selection.createRange().text;
+    }
+    return text;
+}
