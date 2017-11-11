@@ -1,0 +1,122 @@
+<div style="width:20%;">
+    <ul>
+        <li>
+            pizza east
+        </li>
+        <li>
+            dishoom
+        </li>
+        <li>
+                Dishoom Carnaby
+                
+                020 7420 9322
+                
+                22 Kingly St, Carnaby, London W1B 5QB, UK
+                
+                http://www.dishoom.com/
+                
+                google overall rating :4.5
+                
+                google total number of reviews :N/A
+                
+                text :Myself and my wife enjoyed a most convivial late afternoon celebratory lunch at Dishoom. The food was excellent and thankfully not overpowered by spices. Their own in house brand beer also makes an ideal meal accompaniment. I would recommend though that you book in advance to avoid long queues. Our thanks go to the Massimiliano and Serge for their friendly, professional service.
+                
+                rating :5
+                
+                when :a month ago
+                
+                text :I don't like Indian food. It always gives me indigestion (although I enjoy the taste). I stay away from it. THIS PLACE IS AMAZING!! The food is DELICIOUS. Flavourful, not oily, portion sizes are perfect. The atmosphere/decor is so cool. Really comfortable. They have options for those with allergies. The staff really took care of us. Could have stayed there all evening. It's so popular the queue goes down the road. So I would definitely book or go early (we went at about 4pm).
+                
+                rating :5
+                
+                when :a month ago
+                
+                text :Super value, stylish place ideal for lunch. Easier to get a table between 3 and 5 o'clock (weekdays at least) lovely staff and authentic Bombay street food, not your usual Indian restaurant fare at all. Pretty special. I now understand why people queue up to get in here. Highly recommended. Going again soon!
+                
+                rating :5
+                
+                when :2 months ago
+                
+                text :Good food and great drinks! Bartenders are expert cocktail makers. Food is tapa style. Order 3 per person in my opinion. Very tasty though! Definitely recommend!
+                
+                rating :5
+                
+                when :in the last week
+                
+                text :Fab Indian cuisine and a must try restaurant with dishes that you may not find anywhere else. The waiters and waitresses were excellent giving us good advise on what is popular and not over ordering. There's a good inventory of drinks to choose from with some signature cocktails. The decor is unique and comfortable to the eye coupled with some comfy seats. You certainly get your bang for your buck here. My advise, ask the waiting staff if you don't know what to choose, try to order a range of dishes instead of just curry as like us there could be conflicting flavours and tastes. My only gripe? The queue is long! But if you're willing to eat earlier and beat the queue then definitely get there before food rush hour.. We went around 5.30pm and got a table by 6 with a small queue. When we finished and came out there was a queue opposite the restaurant that stretched right down the street!
+                
+                rating :4
+                
+                when :3 months ago
+                
+                yelp overall rating :4.5
+                
+                yelp total number of reviews :240
+                
+                text :I'm still dreaming of my little meal at Dishoom earlier this year. I popped in for a quick lunch alone and LOVED everything. I must go back to try more. I...
+                
+                rating :5
+                
+                when :2017-11-02 08:55:59
+                
+                text :Pretty cool place! Really big and spacious seating. My friend and I shared the okra fries which were so goood!! Got a little salty towards the end but it...
+                
+                rating :3
+                
+                when :2017-11-09 06:27:02
+                
+                text :Simply outstanding! We went at a good time - no line to get in. Our server was really informative and helpful. The food was wonderfully spiced and there...
+                
+                rating :5
+                
+                when :2017-11-01 03:58:31
+        </li>
+    </ul>                
+</div>
+<div style="width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto;">
+    <div id="placeholder">
+        <button onclick="search()">help me</button>
+    </div>
+    <script>
+    var search=function() {
+        var url="/search?name="+getSelectionText();
+        document.getElementById("placeholder").innerHTML ="Loading...";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("placeholder").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+    function reviews(url) {
+        document.getElementById("reviews_placeholder").innerHTML ="Loading...";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("restaurant_placeholder").style.visibility = "hidden";
+                document.getElementById("reviews_placeholder").innerHTML =this.responseText;
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+    function back(section) {
+        if(section="reviews"){
+            document.getElementById("restaurant_placeholder").style.visibility = "visible";
+            document.getElementById("reviews_placeholder").innerHTML ="";
+        }
+    }
+    function getSelectionText() {
+        var text = "";
+        if (window.getSelection) {
+            text = window.getSelection().toString();
+        } else if (document.selection && document.selection.type != "Control") {
+            text = document.selection.createRange().text;
+        }
+        return text;
+    }
+    </script>
+</div>

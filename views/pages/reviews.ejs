@@ -1,0 +1,46 @@
+    <div>
+        <p>
+            <button onclick="back('reviews')">back</button>
+        </p>
+    </div>
+    <div>
+            <p>
+                    <%= metadata.name %>
+            </p>
+            <p>
+                    <%= metadata.phone_number %>
+            </p>
+            <p>
+                    <%= metadata.address %>
+            </p>
+            <p>
+                    <%= metadata.website %>
+            </p>
+        </div>
+        <ul>
+    <% reviews.forEach(function(reviews) { %>
+        <li>
+            <p>
+                <%= reviews.source %> overall rating :<%= reviews.rating %>
+            </p>
+            <p>
+                <%= reviews.source %> total number of reviews  :<%= reviews.number_of_reviews %>
+            </p>
+            <ul>
+            <% reviews.reviews.forEach(function(review) { %>
+                <li>
+                    <p>
+                            text :<%= review.text %>
+                    </p>
+                    <p>
+                        rating :<%= review.rating %>
+                    </p>
+                    <p>
+                            when :<%= review.time %>
+                    </p>
+                </li>
+            <% }); %>
+            </ul>        
+        </li>
+    <% }); %>
+    </ul>            

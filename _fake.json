@@ -1,0 +1,66 @@
+{
+    "metadata": {
+        "google_id": "ChIJw7dS1qosDogRS4LcMi-eTqM",
+        "address": "251 E Huron St, Chicago, IL 60611, USA",
+        "name": "Pizza Studio",
+        "phone_number": "(312) 964-5170",
+        "area_near": "251 East Huron Street, Chicago",
+        "website": "http://www.pizzastudio.com/"
+    },
+    "reviews": {
+        "google": {
+            "rating": 4.4,
+            "source": "google",
+            "reviews": [
+                {
+                    "rating": 5,
+                    "time_text": "in the last week",
+                    "text": "Fast, made to order pizza topped with your choice of fresh, healthy fruits, vegetables, and vegan alternatives. 5 varieties of extra thin pizza from firecracker hot, gluten free and herb. Ready in minutes and served hot."
+                },
+                {
+                    "rating": 5,
+                    "time_text": "6 months ago",
+                    "text": "I love this place!!!! Best crust ever!! Firecracker.  Please reopen more stores! I miss my once a week treat! Staff is amazing."
+                },
+                {
+                    "rating": 4,
+                    "time_text": "10 months ago",
+                    "text": "Quick pizza on your choice of crusts, with multiple fresh and tasty toppings. The salad offerings are also quite reasonable. Also has a good selection of fresh juices or iced tea beverages. It's not the best pizza in town but for a made-to-order pizza in just a few minutes, you can't go wrong. "
+                },
+                {
+                    "rating": 5,
+                    "time_text": "4 months ago",
+                    "text": "Great custom pizzas made to order, hot and fast!"
+                },
+                {
+                    "rating": 5,
+                    "time_text": "2 months ago",
+                    "text": ""
+                }
+            ]
+        },
+        "yelp": {
+            "rating": 4,
+            "number_of_reviews": 14,
+            "source": "yelp",
+            "yelp_id": "pizza-studio-chicago-2",
+            "reviews": [
+                {
+                    "rating": 5,
+                    "time": "2017-08-30 17:10:48",
+                    "text": "Loved this place, even though in northwestern hospital.\n\nPizza comes out piping hot and exactly as you like. All their toppings and ingredients are..."
+                },
+                {
+                    "rating": 4,
+                    "time": "2017-08-13 13:12:15",
+                    "text": "It would have gotten 5 stars but there were two discrepancies (in my opinion). \n\nFirst one (oxymoron): Percy was an awesome chef! Ha! However he told me..."
+                },
+                {
+                    "rating": 5,
+                    "time": "2017-06-05 07:00:33",
+                    "text": "Props to Northwestern for acquiring such an affordable, satiating, and delicious lunch option for their patients, families, and employees!! \nA Chipotle..."
+                }
+            ]
+        }
+    }
+}
