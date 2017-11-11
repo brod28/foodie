@@ -11,5 +11,6 @@
   "permissions": [
     "https://foodieforfoodie.herokuapp.com/*",
     "storage"
-  ]
+  ],
+  "web_accessible_resources": ["foodie_script.js"]
 }
