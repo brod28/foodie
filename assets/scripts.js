@@ -2,7 +2,7 @@ console.log('foodies script start loading');
 
 var host="https://foodieforfoodie.herokuapp.com/";
 var search=function() {
-    var url=host+"/search?name="+getSelectionText();
+    var url=host+"search?name="+getSelectionText();
     document.getElementById("placeholder").innerHTML ="Loading...";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
