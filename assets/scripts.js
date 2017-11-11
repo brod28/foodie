@@ -1,8 +1,8 @@
 console.log('foodies script start loading');
 
-var host="https://foodieforfoodie.herokuapp.com/";
+var host="";//"https://foodieforfoodie.herokuapp.com/";
 var search=function() {
-    var url=host+"search?name="+getSelectionText();
+    var url=host+"search?name="+window.parent.getSelectionText();
     document.getElementById("placeholder").innerHTML ="Loading...";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -33,14 +33,8 @@ function back(section) {
         document.getElementById("reviews_placeholder").innerHTML ="";
     }
 }
-function getSelectionText() {
-    var text = "";
-    if (window.getSelection) {
-        text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") {
-        text = document.selection.createRange().text;
-    }
-    return text;
-}
 
 console.log('foodies script end loading');
+
+
+

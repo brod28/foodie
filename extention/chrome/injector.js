@@ -14,18 +14,14 @@
 console.log('foodies extention started');
 
 
-var script  = document.createElement ("script");
-script.setAttribute("type", "text/javascript");
-script.setAttribute("src", "https://foodieforfoodie.herokuapp.com/static/scripts.js");
-document.body.insertBefore (script, document.body.firstChild);
-console.log('foodies script added');
 
 
-var div  = document.createElement ("div");
-div.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
-//div.src  = 'http://localhost:5000/';
-document.body.insertBefore (div, document.body.firstChild);
-console.log('foodies div added');
+var iframe  = document.createElement ("iframe");
+iframe.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
+iframe.src  = 'https://foodieforfoodie.herokuapp.com/';
+document.body.insertBefore (iframe, document.body.firstChild);
+
+/*console.log('foodies div added');
 div.innerHTML ="Loading...";
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
@@ -34,6 +30,16 @@ xhttp.onreadystatechange = function() {
       console.log('foodies div loaded');
     }
 };
-xhttp.open("GET", 'https://foodieforfoodie.herokuapp.com/', true);
-xhttp.send();
+xhttp.open("GET", '', true);
+xhttp.send();*/
 
+function getSelectionText() {
+  var text = "";
+  if (window.getSelection) {
+      text = window.getSelection().toString();
+  } else if (document.selection && document.selection.type != "Control") {
+      text = document.selection.createRange().text;
+  }
+  return text;
+}
+console.log('foodies extention ended');
