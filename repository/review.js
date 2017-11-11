@@ -298,9 +298,15 @@ function get_tripadviser(metadata){
         console.log("failed tripadviser error "+e);
         throw e;
     }*/
-    
-    let retval=
-    {
+    // in case one of the values is NOT int throw exception 
+    if(!context_common.helper.isInt(google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0])
+    || 
+    !context_common.helper.isInt(google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0])){
+        console.log("trip adviser couldn't resolve from search for "+metadata.description);
+        throw 'error';
+    }
+
+    let retval={
         rating:google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0],
         number_of_reviews:google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0],
         source:'tripadviser',

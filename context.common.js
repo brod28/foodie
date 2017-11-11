@@ -1,6 +1,13 @@
 'use strict';
 
 module.exports = {
+    helper:{
+        isInt:function (value) {
+            return !isNaN(value) && 
+                   parseInt(Number(value)) == value && 
+                   !isNaN(parseInt(value, 10));
+          }
+    },
     http:{
         request_get(req){
             var source;
