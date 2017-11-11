@@ -9,7 +9,7 @@ var search=function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById("placeholder").innerHTML = this.responseText;
         }
-    }; asd
+    }; 
     xhttp.open("GET", url, true);
     xhttp.send();
 }
