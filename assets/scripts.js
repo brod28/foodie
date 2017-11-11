@@ -1,5 +1,6 @@
+var host="https://foodieforfoodie.herokuapp.com/";
 var search=function() {
-    var url="/search?name="+getSelectionText();
+    var url=host+"/search?name="+getSelectionText();
     document.getElementById("placeholder").innerHTML ="Loading...";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -12,6 +13,7 @@ var search=function() {
 }
 
 function reviews(url) {
+    url=host+url;
     document.getElementById("reviews_placeholder").innerHTML ="Loading...";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
