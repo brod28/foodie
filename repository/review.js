@@ -43,6 +43,16 @@ module.exports = {
             catch(e){
                 console.log("yelp for "+GoogleLocationInformation.metadata.name+"reviews did work error:"+e)
             }    
+
+            // get yelp zomato
+            try{
+                let zomato_review=get_zomato(GoogleLocationInformation.metadata)            
+                retVal.reviews.push(zomato_review);
+            }
+            catch(e){
+                console.log("zomato for "+GoogleLocationInformation.metadata.name+"reviews did work error:"+e)
+            }    
+            
         }
         else{
             console.log("google for "+request.name +" didn't find anything")
@@ -99,7 +109,11 @@ function get_google(GoogleLocationInformation){
             name:json.result.name,
             phone_number:json.result.formatted_phone_number,
             area_near:json.result.vicinity,
-            website:json.result.website
+            website:json.result.website,
+            location:{
+                lat:json.result.geometry.location.lat,
+                lng:json.result.geometry.location.lng
+            }
         }
     }
     return retval;
@@ -186,6 +200,58 @@ function get_yelp(metadata){
         number_of_reviews:businessYelp.review_count,
         source:'yelp',
         yelp_id:businessMatchYelp.businesses[0].id,
+        reviews:reviews
+    }
+    return retval;
+}
+
+function get_zomato(metadata){
+    // get token from yelp
+    let zomato_search_result;
+    try{
+        let request_get={
+            url:'https://developers.zomato.com/api/v2.1/search?q='+metadata.name+'&lat='+metadata.location.lat+'&lon='+metadata.location.lng,
+            headers:{"user-key":"448f12a4c9e58334058a96bf10c16cbd"}
+        };
+        let response=context_common.http.request_get(request_get);
+        zomato_search_result=JSON.parse(response);
+        }
+    catch(e){
+        console.log("search failed zomato error "+e);
+        throw e;
+    }
+    let zomato_restaurant=zomato_search_result.restaurants[0].restaurant;
+    let zomato_review_result;
+    try{
+        let request_get={
+            url:'https://developers.zomato.com/api/v2.1/reviews?res_id='+zomato_restaurant.id,
+            headers:{"user-key":"448f12a4c9e58334058a96bf10c16cbd"}
+        };
+        let response=context_common.http.request_get(request_get);
+        zomato_review_result=JSON.parse(response);
+        }
+    catch(e){
+        console.log("review failed zomato error "+e);
+        throw e;
+    }
+
+    let reviews=[];
+    zomato_review_result.user_reviews.forEach(function(element) {
+        let review={
+            rating:element.review.rating,
+            time:element.review.review_time_friendly,
+            text:element.review.review_text
+        };
+        reviews.push(review);
+    });
+
+    
+    let retval=
+    {
+        rating:zomato_restaurant.user_rating.aggregate_rating,
+        number_of_reviews:zomato_restaurant.user_rating.votes,
+        source:'zomato',
+        zomato_id:zomato_restaurant.id,
         reviews:reviews
     }
     return retval;
