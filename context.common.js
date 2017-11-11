@@ -11,9 +11,9 @@ module.exports = {
             }, function (error, response, body) {
                 source = body;
                 if(error==undefined || body=='' || response.statusCode!=200){
-                    console.log(error);
-                    console.log(response);
-                    console.log(body);
+//                    console.log(error);
+  //                  console.log(response);
+    //                console.log(body);
                 }
             });
             while(source === undefined) {
@@ -31,9 +31,9 @@ module.exports = {
             }, function (error, response, body) {
                 source = body;
                 if(error==undefined || body=='' || response.statusCode!=200){
-                    console.log(error);
-                    console.log(response);
-                    console.log(body);
+                 //   console.log(error);
+                   // console.log(response);
+                    //console.log(body);
                 }
             });
             while(source === undefined) {

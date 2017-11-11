@@ -1,4 +1,5 @@
-        <ul id="restaurant_placeholder">
+<div id="placeholder">
+    <ul id="restaurant_placeholder">
             <% data.forEach(function(location) { %>
                 <li>
                     <button onclick="reviews('reviews/?name= <%= location.description %>')"><%= location.description %></button>
@@ -7,3 +8,8 @@
         </ul> 
         <div id="reviews_placeholder">
         </div>       
+</div>
+
+<script type="text/javascript" src="static/scripts.js">
+</script> 
+

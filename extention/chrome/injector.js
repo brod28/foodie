@@ -15,24 +15,8 @@ console.log('foodies extention started');
 
 
 
-var help_me=function(){
-  var iframe  = document.createElement ("iframe");
-  iframe.setAttribute("id", "foodie_to_foodie_iframe");
-  iframe.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
-  console.log('selected '+getSelectionText());
-  iframe.src  = 'https://foodieforfoodie.herokuapp.com/search?name='+getSelectionText();
-  document.body.insertBefore (iframe, document.body.firstChild);  
-  console.log('foodies iframe added');
-}
 
 
-var div  = document.createElement ("div");
-div.addEventListener("click", help_me);
-div.innerHTML = "help me";
-div.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto; z-index: 2147483646;background-color:whitesmoke;");
-div.setAttribute("id", "foodie_to_foodie_div");
-document.body.insertBefore (div, document.body.firstChild);
-console.log('foodies div added');
 
 
 var script = document.createElement('script');
