@@ -1,10 +1,14 @@
 <div id="placeholder">
     <ul id="restaurant_placeholder">
-            <% data.forEach(function(location) { %>
+            <% if (data.length==0) { %>
+                <h2>sorry couldn't find anything</h2>
+            <% } else {%>
+                <% data.forEach(function(location) { %>
                 <li>
                     <button onclick="reviews('reviews/?name= <%= location.description %>')"><%= location.description %></button>
                 </li>
-            <% }); %>
+                <% }); %>
+            <% } %>
         </ul> 
         <div id="reviews_placeholder">
         </div>       
