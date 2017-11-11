@@ -1,66 +1,144 @@
-{
-    "metadata": {
-        "google_id": "ChIJw7dS1qosDogRS4LcMi-eTqM",
-        "address": "251 E Huron St, Chicago, IL 60611, USA",
-        "name": "Pizza Studio",
-        "phone_number": "(312) 964-5170",
-        "area_near": "251 East Huron Street, Chicago",
-        "website": "http://www.pizzastudio.com/"
-    },
-    "reviews": {
-        "google": {
-            "rating": 4.4,
-            "source": "google",
-            "reviews": [
-                {
-                    "rating": 5,
-                    "time_text": "in the last week",
-                    "text": "Fast, made to order pizza topped with your choice of fresh, healthy fruits, vegetables, and vegan alternatives. 5 varieties of extra thin pizza from firecracker hot, gluten free and herb. Ready in minutes and served hot."
-                },
-                {
-                    "rating": 5,
-                    "time_text": "6 months ago",
-                    "text": "I love this place!!!! Best crust ever!! Firecracker.  Please reopen more stores! I miss my once a week treat! Staff is amazing."
-                },
-                {
-                    "rating": 4,
-                    "time_text": "10 months ago",
-                    "text": "Quick pizza on your choice of crusts, with multiple fresh and tasty toppings. The salad offerings are also quite reasonable. Also has a good selection of fresh juices or iced tea beverages. It's not the best pizza in town but for a made-to-order pizza in just a few minutes, you can't go wrong. "
-                },
-                {
-                    "rating": 5,
-                    "time_text": "4 months ago",
-                    "text": "Great custom pizzas made to order, hot and fast!"
-                },
-                {
-                    "rating": 5,
-                    "time_text": "2 months ago",
-                    "text": ""
-                }
-            ]
-        },
-        "yelp": {
-            "rating": 4,
-            "number_of_reviews": 14,
-            "source": "yelp",
-            "yelp_id": "pizza-studio-chicago-2",
-            "reviews": [
-                {
-                    "rating": 5,
-                    "time": "2017-08-30 17:10:48",
-                    "text": "Loved this place, even though in northwestern hospital.\n\nPizza comes out piping hot and exactly as you like. All their toppings and ingredients are..."
-                },
-                {
-                    "rating": 4,
-                    "time": "2017-08-13 13:12:15",
-                    "text": "It would have gotten 5 stars but there were two discrepancies (in my opinion). \n\nFirst one (oxymoron): Percy was an awesome chef! Ha! However he told me..."
-                },
-                {
-                    "rating": 5,
-                    "time": "2017-06-05 07:00:33",
-                    "text": "Props to Northwestern for acquiring such an affordable, satiating, and delicious lunch option for their patients, families, and employees!! \nA Chipotle..."
-                }
-            ]
-        }
+help me{
+    "response": {
+        "status": "ok",
+        "userTier": "developer",
+        "total": 20235,
+        "startIndex": 1,
+        "pageSize": 10,
+        "currentPage": 1,
+        "pages": 2024,
+        "orderBy": "relevance",
+        "results": [
+            {
+                "id": "lifeandstyle/2017/oct/22/piecaramba-winchester-bloody-good-pie-shop-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-10-22T05:00:43Z",
+                "webTitle": "Piecaramba!: â€˜A  bloody good pie shopâ€™ â€“ restaurant review | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/oct/22/piecaramba-winchester-bloody-good-pie-shop-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/oct/22/piecaramba-winchester-bloody-good-pie-shop-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/nov/05/fishers-in-the-city-edinburgh-it-needs-a-friendly-whack-restaurant-review",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-11-05T06:00:10Z",
+                "webTitle": "Fishers in the City, Edinburgh: â€˜It needs a friendly whackâ€™ â€“ restaurant review | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/nov/05/fishers-in-the-city-edinburgh-it-needs-a-friendly-whack-restaurant-review",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/nov/05/fishers-in-the-city-edinburgh-it-needs-a-friendly-whack-restaurant-review",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/oct/15/salt-stratford-upon-avon-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-10-15T05:00:21Z",
+                "webTitle": "Salt, Stratford-upon-Avon: â€˜I want this restaurant to be greatâ€™ | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/oct/15/salt-stratford-upon-avon-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/oct/15/salt-stratford-upon-avon-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/may/18/10-questions-for-the-worlds-most-feared-restaurant-critic-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-05-18T01:44:58Z",
+                "webTitle": "10 questions for the 'world's most feared' restaurant critic Jay Rayner | Lucy Clark",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/may/18/10-questions-for-the-worlds-most-feared-restaurant-critic-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/may/18/10-questions-for-the-worlds-most-feared-restaurant-critic-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/oct/08/angkor-soul-stockport-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-10-08T05:00:42Z",
+                "webTitle": "Angkor Soul, Stockport: â€˜It lives up to its name' | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/oct/08/angkor-soul-stockport-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/oct/08/angkor-soul-stockport-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/may/28/the-test-kitchen-london-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-05-28T05:00:01Z",
+                "webTitle": "The Test Kitchen, London - restaurant review | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/may/28/the-test-kitchen-london-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/may/28/the-test-kitchen-london-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/may/21/plot-london-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-05-21T05:00:45Z",
+                "webTitle": "Plot, London: restaurant review | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/may/21/plot-london-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/may/21/plot-london-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "global/2017/jul/24/kenneth-jay-lane-obituary",
+                "type": "article",
+                "sectionId": "fashion",
+                "sectionName": "Fashion",
+                "webPublicationDate": "2017-07-24T15:24:03Z",
+                "webTitle": "Kenneth Jay Lane obituary",
+                "webUrl": "https://www.theguardian.com/global/2017/jul/24/kenneth-jay-lane-obituary",
+                "apiUrl": "https://content.guardianapis.com/global/2017/jul/24/kenneth-jay-lane-obituary",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/may/14/radici-london-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-05-14T05:00:07Z",
+                "webTitle": "Radici, London: restaurant review | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/may/14/radici-london-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/may/14/radici-london-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            },
+            {
+                "id": "lifeandstyle/2017/apr/23/claude-bosi-at-bibendum-london-restaurant-review-jay-rayner",
+                "type": "article",
+                "sectionId": "lifeandstyle",
+                "sectionName": "Life and style",
+                "webPublicationDate": "2017-04-23T05:00:04Z",
+                "webTitle": "Claude Bosi at Bibendum: restaurant review | Jay Rayner",
+                "webUrl": "https://www.theguardian.com/lifeandstyle/2017/apr/23/claude-bosi-at-bibendum-london-restaurant-review-jay-rayner",
+                "apiUrl": "https://content.guardianapis.com/lifeandstyle/2017/apr/23/claude-bosi-at-bibendum-london-restaurant-review-jay-rayner",
+                "isHosted": false,
+                "pillarId": "pillar/lifestyle",
+                "pillarName": "Lifestyle"
+            }
+        ]
     }
 }

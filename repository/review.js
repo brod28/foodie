@@ -32,7 +32,7 @@ module.exports = {
                 retVal.reviews.push(GoogleLocationInformation.reviews);
             }
             catch(e){
-                console.log("google for "+GoogleLocationInformation.metadata.name+" reviews did work error:"+e)
+                console.log("google for "+request.name+" reviews did work error:"+e)
             }
             
             // get yelp reviews
@@ -41,7 +41,7 @@ module.exports = {
                 retVal.reviews.push(yelp_review);
             }
             catch(e){
-                console.log("yelp for "+GoogleLocationInformation.metadata.name+"reviews did work error:"+e)
+                console.log("yelp for "+request.name+"reviews did work error:"+e)
             }    
 
             // get yelp zomato
@@ -50,8 +50,19 @@ module.exports = {
                 retVal.reviews.push(zomato_review);
             }
             catch(e){
-                console.log("zomato for "+GoogleLocationInformation.metadata.name+"reviews did work error:"+e)
+                console.log("zomato for "+request.name+"reviews did work error:"+e)
             }    
+
+            
+            try{
+                let tripadviser_review=get_tripadviser(GoogleLocationInformation.metadata)            
+                retVal.reviews.push(tripadviser_review);
+            }
+            catch(e){
+                console.log("tripadviser for "+request.name+"reviews did work error:"+e)
+            }    
+
+            
             
         }
         else{
@@ -109,6 +120,7 @@ function get_google(GoogleLocationInformation){
             name:json.result.name,
             phone_number:json.result.formatted_phone_number,
             area_near:json.result.vicinity,
+            description:GoogleLocationInformation.description,
             website:json.result.website,
             location:{
                 lat:json.result.geometry.location.lat,
@@ -253,6 +265,47 @@ function get_zomato(metadata){
         source:'zomato',
         zomato_id:zomato_restaurant.id,
         reviews:reviews
+    }
+    return retval;
+}
+
+function get_tripadviser(metadata){
+    // get token from yelp
+    let google_search_result;
+    try{
+        let request_get={
+            url:'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:9tp-ocrbvdw&q='+metadata.description
+        };
+        let response=context_common.http.request_get(request_get);
+        google_search_result=JSON.parse(response);
+        }
+    catch(e){
+        console.log("search failed google error "+e);
+        throw e;
+    }
+   /* let tripadviser_id=google_search_result.items[0].formattedUrl.split("g")[1].split('-')[0];
+    let tripadviser_result;
+    try{
+        let request_get={
+            url:'http://api.tripadvisor.com/api/partner/2.0/location/'+tripadviser_id+'?key=',
+            headers:{"X-TripAdvisor-API-Key":""}
+            
+        };
+        let response=context_common.http.request_get(request_get);
+        tripadviser_result=JSON.parse(response);
+        }
+    catch(e){
+        console.log("failed tripadviser error "+e);
+        throw e;
+    }*/
+    
+    let retval=
+    {
+        rating:google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' of')[0],
+        number_of_reviews:google_search_result.items[0].htmlSnippet.split('/b>: See ')[1].split(' ')[0],
+        source:'tripadviser',
+        zomato_id:0,
+        reviews:[]
     }
     return retval;
 }
