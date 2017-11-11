@@ -301,8 +301,8 @@ function get_tripadviser(metadata){
     
     let retval=
     {
-        rating:google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' of')[0],
-        number_of_reviews:google_search_result.items[0].htmlSnippet.split('/b>: See ')[1].split(' ')[0],
+        rating:google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0],
+        number_of_reviews:google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0],
         source:'tripadviser',
         zomato_id:0,
         reviews:[]
