@@ -16,18 +16,20 @@ var script  = document.createElement ("script");
 script.setAttribute("type", "text/javascript");
 script.setAttribute("src", "https://foodieforfoodie.herokuapp.com/static/scripts.js");
 document.body.insertBefore (script, document.body.firstChild);
-
+console.log('foodies script added');
 
 
 var div  = document.createElement ("div");
 div.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
 //div.src  = 'http://localhost:5000/';
 document.body.insertBefore (div, document.body.firstChild);
+console.log('foodies div added');
 div.innerHTML ="Loading...";
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       div.innerHTML =this.responseText;
+      console.log('foodies div loaded');
     }
 };
 xhttp.open("GET", 'https://foodieforfoodie.herokuapp.com/', true);

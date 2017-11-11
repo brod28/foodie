@@ -1,3 +1,5 @@
+console.log('foodies script start loading');
+
 var host="https://foodieforfoodie.herokuapp.com/";
 var search=function() {
     var url=host+"/search?name="+getSelectionText();
@@ -40,3 +42,5 @@ function getSelectionText() {
     }
     return text;
 }
+
+console.log('foodies script end loading');
