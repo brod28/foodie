@@ -2,10 +2,10 @@
 
 module.exports = {
     helper:{
-        isInt:function (value) {
+        isFloat:function (value) {
             return !isNaN(value) && 
-                   parseInt(Number(value)) == value && 
-                   !isNaN(parseInt(value, 10));
+                   parseFloat(Number(value)) == value && 
+                   !isNaN(parseFloat(value, 10));
           }
     },
     http:{

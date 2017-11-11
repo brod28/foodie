@@ -62,6 +62,14 @@ module.exports = {
                 console.log("tripadviser for "+request.name+"reviews did work error:"+e)
             }    
 
+            try{
+                let NYC_review=get_NewTimes(GoogleLocationInformation.metadata)            
+                retVal.reviews.push(NYC_review);
+            }
+            catch(e){
+                console.log("NYT for "+request.name+"reviews did work error:"+e)
+            }    
+            
             
             
         }
@@ -105,6 +113,7 @@ function get_google(GoogleLocationInformation){
         reviews.push(review);
     });
 
+
     // build return object
     let retval=
     {
@@ -112,7 +121,8 @@ function get_google(GoogleLocationInformation){
             rating:json.result.rating,
             number_of_reviews:'N/A',
             source:'google',
-            reviews:reviews    
+            reviews:reviews,
+            review_article:undefined  
         },
         metadata:{
             google_id:GoogleLocationInformation.place_id,
@@ -212,7 +222,8 @@ function get_yelp(metadata){
         number_of_reviews:businessYelp.review_count,
         source:'yelp',
         yelp_id:businessMatchYelp.businesses[0].id,
-        reviews:reviews
+        reviews:reviews,
+        review_article:undefined
     }
     return retval;
 }
@@ -264,7 +275,8 @@ function get_zomato(metadata){
         number_of_reviews:zomato_restaurant.user_rating.votes,
         source:'zomato',
         zomato_id:zomato_restaurant.id,
-        reviews:reviews
+        reviews:reviews,
+        review_article:undefined
     }
     return retval;
 }
@@ -299,9 +311,9 @@ function get_tripadviser(metadata){
         throw e;
     }*/
     // in case one of the values is NOT int throw exception 
-    if(!context_common.helper.isInt(google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0])
+    if(!context_common.helper.isFloat(google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0])
     || 
-    !context_common.helper.isInt(google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0])){
+    !context_common.helper.isFloat(google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0])){
         console.log("trip adviser couldn't resolve from search for "+metadata.description);
         throw 'error';
     }
@@ -311,7 +323,40 @@ function get_tripadviser(metadata){
         number_of_reviews:google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0],
         source:'tripadviser',
         zomato_id:0,
-        reviews:[]
+        reviews:[],
+        review_article:undefined
+    }
+    return retval;
+}
+
+function get_NewTimes(metadata){
+    let array_reviews_NYT=[];
+    try{
+        let fs = require('fs');
+        let json = JSON.parse(fs.readFileSync('./NYtimes_in_NYC.json', 'utf8'));
+        json.data.forEach(function(element){
+            array_reviews_NYT = array_reviews_NYT.concat(element.results);
+        })
+        array_reviews_NYT={data:array_reviews_NYT};
+    }
+    catch(e){
+        console.log("NYT file doesn't load "+metadata.description);
+        throw 'error';
+    }
+    let NYT_restaurant = jsonQuery('data[**][name='+metadata.name+']', 
+        {data: array_reviews_NYT}
+    ).value;
+    let retval={
+        rating:'N/A',
+        number_of_reviews:'N/A',
+        source:'New York Times',
+        zomato_id:0,
+        reviews:[],
+        review_article:{
+            url:NYT_restaurant.review,
+            summary:NYT_restaurant.summary,
+            by:NYT_restaurant.editors_notes
+        }
     }
     return retval;
 }
