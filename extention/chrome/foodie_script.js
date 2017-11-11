@@ -8,5 +8,8 @@ function getSelectionText() {
     return text;
   }
 
+
+
+
   console.log('foodies foodie_script loaded');
   
