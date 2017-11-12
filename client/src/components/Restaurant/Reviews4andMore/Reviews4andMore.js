@@ -25,7 +25,7 @@ class Reviews4andMore extends Component {
               </p>
               <p>
               {review.reviews.length>0?
-                (<Link to={'read_reviews/' + review.source}>
+                (<Link to={window.location.pathname+'/read_reviews/' + review.inner_id}>
                 read the reviews
               </Link>)
                 :

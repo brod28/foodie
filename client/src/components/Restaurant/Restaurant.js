@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Reviews4andMore from './Reviews4andMore/Reviews4andMore';
 import Articles4andMore from './Articles4andMore/Articles4andMore'
+import Reviews from './Reviews/Reviews'
 import {
   BrowserRouter as Router,
   Route,
@@ -19,7 +20,7 @@ class Restaurant extends Component {
 
   componentDidMount() {
     
-  fetch('/api/reviews?name=' + this.props.name)
+  /*fetch('/api/reviews?name=' + this.props.name)
         .then(res => res.json())
         .then(restaurant => 
           {let reviews = [];
@@ -38,14 +39,23 @@ class Restaurant extends Component {
             articles: articles
           });}
             );
-/*
+*/
     let reviews = [];
     let articles = [];
+    let id_counter=0;
     restaurant.reviews.forEach(function (element) {
+      id_counter++;
+      element.inner_id=id_counter;
       if (!element.review_article) {
         reviews.push(element);
+        element.reviews.forEach(function(review){
+          id_counter++;
+          review.inner_id=id_counter;
+        })
       }
       else {
+        id_counter++;
+        element.review_article=id_counter;
         articles.push(element);
       }
     });
@@ -55,7 +65,7 @@ class Restaurant extends Component {
       articles: articles
     });
 
-*/
+
   }
 
 
@@ -68,7 +78,7 @@ class Restaurant extends Component {
     let reviews4andMore = <p>Loading reviews... </p>;
     if (this.state.reviews) {
 
-      reviews4andMore = <Reviews4andMore reviews={this.state.reviews} />
+      reviews4andMore = <Reviews4andMore reviews={this.state.reviews}  />
     }
     let articles4andMore = <p>Loading articles... </p>;
     if (this.state.articles) {
@@ -77,10 +87,14 @@ class Restaurant extends Component {
     return (
       <div className="restaurant">
         {restaurantName}
-        {reviews4andMore}
-        {articles4andMore}
-        <Route path="*/reviews/:reviewid" render={({match})=>(
-            'reviews are here'
+        <Route exact path="/restaurant/:name" render={({match})=>(
+            reviews4andMore
+        )}/>
+        <Route exact path="/restaurant/:name" render={({match})=>(
+            articles4andMore
+        )}/>
+        <Route path="*/read_reviews/:review_platfrom_inner_id" render={({match})=>(
+              <Reviews reviews={this.state.reviews} review_platfrom_inner_id={match.params.review_platfrom_inner_id} />
           )}/>
       </div>
     );
