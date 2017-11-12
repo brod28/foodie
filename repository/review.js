@@ -34,7 +34,7 @@ module.exports = {
             catch(e){
                 console.log("google for "+request.name+" reviews did work error:"+e)
             }
-            /*
+            
             // get yelp reviews
             try{
                 let yelp_review=get_yelp(GoogleLocationInformation.metadata)            
@@ -53,7 +53,7 @@ module.exports = {
                 console.log("zomato for "+request.name+"reviews did work error:"+e)
             }    
 
-         */   
+            
             try{
                 let rest_review=get_rest(GoogleLocationInformation.metadata)            
                 retVal.reviews=retVal.reviews.concat(rest_review);
