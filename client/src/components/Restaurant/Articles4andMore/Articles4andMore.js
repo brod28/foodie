@@ -32,13 +32,18 @@ class Articles4andMore extends Component {
         <div className="articles_4_and_more">
           {this.state.review_article.map(article =>
             <div className="articles_4">
+              <div>
+                    {article.summary.substring(0,200)+"..."}
+              </div>
+              <div>
+                    article is provided by {article.source}
+              </div>
               <p>
-                article is provided by {article.source}
-              </p>
-              <p>
-                <Link to={'aas'}>
-                  read the article
-            </Link>
+                <a href={article.url} target="_blank">
+                    read the article
+                </a>)
+                  
+                
               </p>
             </div>
           )}

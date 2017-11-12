@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Reviews4andMore from './Reviews4andMore/Reviews4andMore';
 import Articles4andMore from './Articles4andMore/Articles4andMore'
 import Reviews from './Reviews/Reviews'
+import Article from './Article/Article'
 import {
   BrowserRouter as Router,
   Route,
@@ -55,7 +56,7 @@ class Restaurant extends Component {
       }
       else {
         id_counter++;
-        element.review_article=id_counter;
+        element.review_article.inner_id=id_counter;
         articles.push(element);
       }
     });
