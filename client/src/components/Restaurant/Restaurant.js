@@ -79,6 +79,9 @@ class Restaurant extends Component {
         {restaurantName}
         {reviews4andMore}
         {articles4andMore}
+        <Route path="*/reviews/:reviewid" render={({match})=>(
+            'reviews are here'
+          )}/>
       </div>
     );
   }
