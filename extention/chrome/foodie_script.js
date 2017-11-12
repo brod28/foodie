@@ -20,7 +20,7 @@ var help_me=function(){
         console.log('foodies selected '+getSelectionText());
         document.body.insertBefore (iframe, document.body.firstChild);  
     }
-    iframe.src  = 'https://foodieforfoodie.herokuapp.com/search?name='+getSelectionText();
+    iframe.src  = 'https://foodieforfoodie.herokuapp.com/search/'+getSelectionText();
     console.log('foodies iframe added');
     console.log('foodies help_me ended');  
 }
