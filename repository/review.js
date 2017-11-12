@@ -1,5 +1,5 @@
 'use strict';
-const context_common = require('../context.common.js');
+const context_common = require('../helpers/common.js');
 const locationRepository = require('./location.js');
 const jsonQuery = require('json-query')
 
@@ -383,7 +383,7 @@ function get_NewTimes(metadata){
     let array_reviews_NYT=[];
     try{
         let fs = require('fs');
-        let json = JSON.parse(fs.readFileSync('./NYtimes_in_NYC.json', 'utf8'));
+        let json = JSON.parse(fs.readFileSync('./data/NYtimes_in_NYC.json', 'utf8'));
         json.data.forEach(function(element){
             array_reviews_NYT = array_reviews_NYT.concat(element.results);
         })

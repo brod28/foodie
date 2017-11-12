@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const repositor_review = require('./repository/review.js');
 const repositor_location = require('./repository/location.js');
-const context_common = require('./context.common.js');
+const context_common = require('./helpers/common.js');
 const restService = express();
 
 restService.use(bodyParser.json());
@@ -51,17 +51,6 @@ restService.get('/reviews',function(req,res) {
     res.render('pages/reviews',retVal);
 
 });
-
-
-/*restService.get('/test',function(req,res) {
-    console.log("request start")
-    res.render('pages/test');
-});
-
-restService.get('/',function(req,res) {
-    console.log("request start")
-    res.render('pages/index');
-});*/
 /* */
 restService.listen((process.env.PORT || 5000), function () {
     console.log("Server listening");
