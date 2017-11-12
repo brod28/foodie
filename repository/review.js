@@ -34,7 +34,7 @@ module.exports = {
             catch(e){
                 console.log("google for "+request.name+" reviews did work error:"+e)
             }
-            
+            /*
             // get yelp reviews
             try{
                 let yelp_review=get_yelp(GoogleLocationInformation.metadata)            
@@ -53,10 +53,10 @@ module.exports = {
                 console.log("zomato for "+request.name+"reviews did work error:"+e)
             }    
 
-            
+         */   
             try{
-                let tripadviser_review=get_tripadviser(GoogleLocationInformation.metadata)            
-                retVal.reviews.push(tripadviser_review);
+                let rest_review=get_rest(GoogleLocationInformation.metadata)            
+                retVal.reviews=retVal.reviews.concat(rest_review);
             }
             catch(e){
                 console.log("tripadviser for "+request.name+"reviews did work error:"+e)
@@ -86,10 +86,12 @@ function get_google(GoogleLocationInformation){
     let get_request={
         url:'https://maps.googleapis.com/maps/api/place/details/json?placeid='+GoogleLocationInformation.place_id+'&key=AIzaSyC_jyDsWS4RloJpkkqctnIc8SVirGIYgjY'
     };
+    
     let response;
     let json;
     try{
         response=context_common.http.request_get(get_request)
+
     }
     catch(e){
         console.log("call to google failed url "+ get_request.url+" error "+e);
@@ -281,20 +283,31 @@ function get_zomato(metadata){
     return retval;
 }
 
-function get_tripadviser(metadata){
+function get_rest(metadata){
     // get token from yelp
     let google_search_result;
     try{
+        //no facebook
         let request_get={
-            url:'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:9tp-ocrbvdw&q='+metadata.description
+            url:'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:9tp-ocrbvdw&q='+metadata.description+' Rating'
         };
         let response=context_common.http.request_get(request_get);
         google_search_result=JSON.parse(response);
+
+        //facebook
+        request_get={
+            url:'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:eq7nh5o0slm&q='+metadata.description+' Rating'
+        };
+        response=context_common.http.request_get(request_get);
+        google_search_result.items=google_search_result.items.concat(JSON.parse(response).items);
+        
         }
     catch(e){
         console.log("search failed google error "+e);
         throw e;
     }
+
+    'https://www.googleapis.com/customsearch/v1?q=%22restaurant-review-jay-rayner%22&num=10&start=0&cx=008786984061848902811:nwiwb74age0&alt=json&key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ';
    /* let tripadviser_id=google_search_result.items[0].formattedUrl.split("g")[1].split('-')[0];
     let tripadviser_result;
     try{
@@ -311,22 +324,59 @@ function get_tripadviser(metadata){
         throw e;
     }*/
     // in case one of the values is NOT int throw exception 
-    if(!context_common.helper.isFloat(google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0])
-    || 
-    !context_common.helper.isFloat(google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0])){
-        console.log("trip adviser couldn't resolve from search for "+metadata.description);
-        throw 'error';
-    }
-
-    let retval={
-        rating:google_search_result.items[0].htmlSnippet.split('rated ')[1].split(' ')[0],
-        number_of_reviews:google_search_result.items[0].htmlSnippet.split('See ')[1].split(' ')[0],
-        source:'tripadviser',
-        zomato_id:0,
-        reviews:[],
-        review_article:undefined
-    }
-    return retval;
+    let retVal=[];
+    let includes=[];
+    google_search_result.items.forEach(function(element){
+        if(!element.displayLink.includes("yelp")
+        && !element.displayLink.includes("zomato")
+        && !includes.includes(element.displayLink)){
+            try{
+                let rating;
+                let number_of_reviews="N/A";
+                try{
+                    rating=element.snippet.split('rated ')[1].split(' ')[0];
+                    number_of_reviews=element.snippet.split('See ')[1].split(' ')[0];
+                    if(!context_common.helper.isFloat(rating)){
+                        rating=undefined;
+                    }
+                    if(!context_common.helper.isFloat(number_of_reviews)){
+                        number_of_reviews="N/A";
+                    }
+                }
+                catch(e)
+                {
+                    console.log("rest htmlSnippet parse rating failed for "+element.displayLink)
+                }
+    
+                if(element.pagemap){
+                    if(element.pagemap.aggregaterating){
+                        if(element.pagemap.aggregaterating[0]){
+                            rating=element.pagemap.aggregaterating[0].ratingvalue;
+                            number_of_reviews=element.pagemap.aggregaterating[0].ratingcount;
+                        }
+                    }
+                }
+                if(rating)
+                {
+                    includes.push(element.displayLink);
+                    let obj={
+                        rating:rating,
+                        number_of_reviews:number_of_reviews,
+                        source:element.displayLink,
+                        id:0,
+                        reviews:[],
+                        review_article:undefined
+                    }
+                    retVal.push(obj);
+                }
+            }
+            catch(e)
+            {
+                console.log("rest parse rating failed for "+element.displayLink)
+            }
+        }
+    })
+    return retVal;
 }
 
 function get_NewTimes(metadata){
