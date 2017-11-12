@@ -21,26 +21,37 @@ class Restaurant extends Component {
 
   componentDidMount() {
     
-  /*fetch('/api/reviews?name=' + this.props.name)
+  fetch('/api/reviews?name=' + this.props.name)
         .then(res => res.json())
         .then(restaurant => 
-          {let reviews = [];
-          let articles = [];
-          restaurant.reviews.forEach(function (element) {
-            if (!element.review_article) {
-              reviews.push(element);
-            }
-            else {
-              articles.push(element);
-            }
-          });
-          this.setState({
-            restaurant: restaurant,
-            reviews: reviews,
-            articles: articles
-          });}
+          {
+            let reviews = [];
+            let articles = [];
+            let id_counter=0;
+            restaurant.reviews.forEach(function (element) {
+              id_counter++;
+              element.inner_id=id_counter;
+              if (!element.review_article) {
+                reviews.push(element);
+                element.reviews.forEach(function(review){
+                  id_counter++;
+                  review.inner_id=id_counter;
+                })
+              }
+              else {
+                id_counter++;
+                element.review_article.inner_id=id_counter;
+                articles.push(element);
+              }
+            });
+            this.setState({
+              restaurant: restaurant,
+              reviews: reviews,
+              articles: articles
+            });
+        }
             );
-*/
+/*
     let reviews = [];
     let articles = [];
     let id_counter=0;
@@ -66,7 +77,7 @@ class Restaurant extends Component {
       articles: articles
     });
 
-
+*/
   }
 
 
