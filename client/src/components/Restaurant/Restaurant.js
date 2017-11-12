@@ -18,7 +18,7 @@ class Restaurant extends Component {
   }
 
   componentDidMount() {
-    /*
+    
   fetch('/api/reviews?name=' + this.props.name)
         .then(res => res.json())
         .then(restaurant => 
@@ -38,7 +38,7 @@ class Restaurant extends Component {
             articles: articles
           });}
             );
-*/
+/*
     let reviews = [];
     let articles = [];
     restaurant.reviews.forEach(function (element) {
@@ -55,7 +55,7 @@ class Restaurant extends Component {
       articles: articles
     });
 
-
+*/
   }
 
 
