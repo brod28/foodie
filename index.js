@@ -19,6 +19,30 @@ restService.set('view engine', 'ejs');
 restService.use('/static', express.static('assets'))
 
 
+
+restService.get('/api/search', function(req, res) {
+    console.log("request search with for " + req.param('name'))
+    let request={
+        name:req.param('name'),
+        
+    };
+    let retVal=repositor_location.search(request);
+    res.json({data:retVal});
+});
+
+restService.get('/api/reviews',function(req,res) {
+    
+     
+     console.log("request review with for " + req.param('name'))
+     let request={
+         name:req.param('name')        
+     };
+     let retVal=repositor_review.get_reviews(request);
+ 
+     console.log("request review end with " + JSON.stringify(retVal))
+     res.json(retVal);
+ });
+
 // index page 
 restService.get('/search', function(req, res) {
     console.log("request search with for " + req.param('name'))
