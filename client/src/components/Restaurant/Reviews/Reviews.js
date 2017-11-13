@@ -4,6 +4,7 @@ import {
     Route,
     Link
 } from 'react-router-dom'
+import HeaderForPopup from '../../Header/HeaderForPopup'
 
 class Reviews extends Component {
     constructor(props) {
@@ -23,9 +24,13 @@ class Reviews extends Component {
     }
 
     render() {
+        let back=function(){
+            window.history.back();
+        }
         return (
             (
                 this.state.reviews.length>1 ?
+                <div className="popup">
                 <div className="reviews">
                     {this.state.reviews.map(review =>
                         <div>
@@ -40,11 +45,17 @@ class Reviews extends Component {
                             </p>
                         </div>
                     )}
+                    <HeaderForPopup name="Review" back={back}/>
+
+                </div>
                 </div>
                 :
-                <div>
+                <div className="popup">
+                    <div>
                     Loading reviews ...
-                </div>
+                    <HeaderForPopup name="Review" back={back}/>
+                    </div>
+                    </div>
             )
         )
     }

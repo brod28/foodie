@@ -17,15 +17,11 @@ class App extends Component {
   }
 
   render() {
-    var onclick =function(){
-      window.history.back();
-    } 
     return (
+      
       <Router>
         <div className="App">
-          <Route path="*read_review*" render={({ match }) => (
-            <div className="button_back" onClick={onclick}>{"<<< back"} </div>
-          )} />
+
           <Route path="/search/:name" render={({ match }) => (
             <SearchResult name={match.params.name}>
             </SearchResult>
