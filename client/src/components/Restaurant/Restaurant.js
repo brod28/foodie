@@ -32,22 +32,22 @@ class Restaurant extends Component {
             restaurant.reviews.forEach(function (element) {
               id_counter++;
               element.inner_id = id_counter;
-              if (!element.review_article) {
-                reviews.push(element);
-                element.reviews.forEach(function (review) {
-                  id_counter++;
-                  review.inner_id = id_counter;
-                })
+              if (element.review_article) {
+                id_counter++;
+                element.review_article.inner_id = id_counter;
+                articles.push(element);
               }
-              else if (!element.photos) {
+              else if (element.photos) {
                 id_counter++;
                 element.photos.inner_id = id_counter;
                 photos.push(element);
               }
               else {
-                id_counter++;
-                element.review_article.inner_id = id_counter;
-                articles.push(element);
+                element.reviews.forEach(function (review) {
+                  id_counter++;
+                  review.inner_id = id_counter;
+                })
+                reviews.push(element);
               }
             });
             this.setState({
