@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Reviews4andMore from './Reviews4andMore/Reviews4andMore';
 import Articles4andMore from './Articles4andMore/Articles4andMore'
+import PhotosandMore from './PhotosandMore/PhotosandMore'
 import Reviews from './Reviews/Reviews'
 import HeaderForPopup from '../Header/HeaderForPopup'
 import {
@@ -20,65 +21,77 @@ class Restaurant extends Component {
   }
 
   componentDidMount() {
-    
-  fetch('/api/reviews?name=' + this.props.name)
-        .then(res => res.json())
-        .then(restaurant => 
-          {
+    /*
+        fetch('/api/reviews?name=' + this.props.name)
+          .then(res => res.json())
+          .then(restaurant => {
             let reviews = [];
             let articles = [];
-            let id_counter=0;
+            let photos = [];
+            let id_counter = 0;
             restaurant.reviews.forEach(function (element) {
               id_counter++;
-              element.inner_id=id_counter;
+              element.inner_id = id_counter;
               if (!element.review_article) {
                 reviews.push(element);
-                element.reviews.forEach(function(review){
+                element.reviews.forEach(function (review) {
                   id_counter++;
-                  review.inner_id=id_counter;
+                  review.inner_id = id_counter;
                 })
+              }
+              else if (!element.photos) {
+                id_counter++;
+                element.photos.inner_id = id_counter;
+                photos.push(element);
               }
               else {
                 id_counter++;
-                element.review_article.inner_id=id_counter;
+                element.review_article.inner_id = id_counter;
                 articles.push(element);
               }
             });
             this.setState({
               restaurant: restaurant,
               reviews: reviews,
-              articles: articles
+              articles: articles,
+              photos: photos
             });
-        }
-            );
-
-          /*
+          }
+          );
+    */
     let reviews = [];
     let articles = [];
-    let id_counter=0;
+    let photos = [];
+    let id_counter = 0;
     restaurant.reviews.forEach(function (element) {
       id_counter++;
-      element.inner_id=id_counter;
-      if (!element.review_article) {
-        reviews.push(element);
-        element.reviews.forEach(function(review){
-          id_counter++;
-          review.inner_id=id_counter;
-        })
+      element.inner_id = id_counter;
+      if (element.review_article) {
+        id_counter++;
+        element.review_article.inner_id = id_counter;
+        articles.push(element);
+      }
+      else if (element.photos) {
+        id_counter++;
+        element.photos.inner_id = id_counter;
+        photos.push(element);
       }
       else {
-        id_counter++;
-        element.review_article.inner_id=id_counter;
-        articles.push(element);
+        element.reviews.forEach(function (review) {
+          id_counter++;
+          review.inner_id = id_counter;
+        })
+        reviews.push(element);
       }
     });
     this.setState({
       restaurant: restaurant,
       reviews: reviews,
-      articles: articles
+      articles: articles,
+      photos: photos
     });
 
-// */
+
   }
 
 
@@ -91,23 +104,32 @@ class Restaurant extends Component {
     let reviews4andMore = <p>Loading reviews... </p>;
     if (this.state.reviews) {
 
-      reviews4andMore = <Reviews4andMore reviews={this.state.reviews}  />
+      reviews4andMore = <Reviews4andMore reviews={this.state.reviews} />
     }
     let articles4andMore = <p>Loading articles... </p>;
     if (this.state.articles) {
       articles4andMore = <Articles4andMore articles={this.state.articles} />
     }
+    let photosandMore = <p>Loading photos... </p>;
+    if (this.state.photos) {
+      photosandMore = <PhotosandMore photos={this.state.photos} />
+    }
+
     return (
       <div className="popup">
-      <div className="restaurant">
-        {restaurantName}
-        <Route  path="/restaurant/:name" render={({match})=>(
+        <div className="restaurant">
+          {restaurantName}
+          <Route path="/restaurant/:name" render={({ match }) => (
             reviews4andMore
-        )}/>
-        <Route  path="/restaurant/:name" render={({match})=>(
+          )} />
+          <Route path="/restaurant/:name" render={({ match }) => (
             articles4andMore
-        )}/>
-      </div>
+          )} />
+          <Route path="/restaurant/:name" render={({ match }) => (
+            photosandMore
+          )} />
+
+        </div>
       </div>
     );
   }
@@ -116,6 +138,4 @@ class Restaurant extends Component {
 export default Restaurant;
 
 
-var restaurant = { "metadata": { "google_id": "ChIJwz2KcctC1moRJw05MBuagLI", "address": "Basement, 407/409 Swanston St, Melbourne VIC 3000, Australia", "name": "Joomak", "phone_number": "(03) 9663 7123", "area_near": "Basement, 407/409 Swanston Street, Melbourne", "description": "Joomak, Swanston Street, Melbourne, Victoria, Australia", "website": "http://www.joomak.com.au/", "location": { "lat": -37.809035, "lng": 144.963227 } }, 
-"reviews": [{ "rating": 4, "number_of_reviews": "N/A", "source": "google", "reviews": [{ "rating": 4, "time": "a week ago", "text": "The place was hard to find at first but the foods were great. I love the flavoured rice wines. It is crowded during evening so you need to book first." }, { "rating": 4, "time": "2 months ago", "text": "The atmosphere is really great, cosy, somewhat private, dark but also well lit when it matters. Great location. The food is tasty. The BBQ chicken I had was great however the sweet and sour pork had too much sauce on it. I would say the dishes are a little on the small side, but the drinks were good." }, { "rating": 3, "time": "4 weeks ago", "text": "They have amazing rice wine with different flavor but make sure you try the peach one, absolutely impressive. However, this is basically a place for drinking rather than having a tatse of Korean cuisine. They don't have the popular kinds of food but they do have the kinds that you may enjoy having little small bites during drinking. The food is just ok." }, { "rating": 4, "time": "a month ago", "text": "The food is pretty average but this place has the best flavoured makeollis in Melbourne out of which peach makeolli is my favourite! It's a quick drink and leave place because you can only book a table for 1.5 hours. Joomak is always busy, hence a table booking is recommended x" }, { "rating": 4, "time": "2 months ago", "text": "Open until really late, so a good place for supper. Peach rice wine is divine, kimchi stew and kimchi pancake also nice. Cool little private booths for dining." }] }, { "rating": 3.5, "number_of_reviews": 3, "source": "yelp", "yelp_id": "joomak-melbourne-2", "reviews": [{ "rating": 3, "time": "2016-02-19 05:05:20", "text": "It's hard to find and easy to miss - Joomak is a little basememt bar right next to RMIT. You might not know what you're getting into as you walk down the..." }, { "rating": 4, "time": "2016-10-30 00:19:57", "text": "Known for their rice wine and fruit soju! This korean bar is quite popular even though it's location is somewhat hidden. They open till late and can be..." }, { "rating": 3, "time": "2015-10-12 18:01:48", "text": "my favourite thing here is the flavoured soju and rice wines. i sound like an alcoholic right now but i can assure you i'm not and just enjoy the occasional..." }] }, { "rating": "4.0", "number_of_reviews": "1615", "source": "zomato", "zomato_id": "16577469", "reviews": [{ "rating": 5, "time": "24 days ago", "text": "If you’re looking for a late night feed this is the place to go. I was thrilled to know it closed at 3am. Found it difficult to find but b..." }, { "rating": 4, "time": "29 days ago", "text": "Have been to Joomak a few times in the past few years. Very nice atmosphere here. Always busy so must book. They have a few booth seats whic..." }, { "rating": 4.5, "time": "one month ago", "text": "The food is pretty average but this place has the best flavoured makeollis in Melbourne out of which peach makeolli is my favourite! It's a ..." }, { "rating": 3, "time": "one month ago", "text": "The best thing about Joomak is that it opens late hours. If you're tired after a long night and hungry for proper food, Joomak's probably a ..." }, { "rating": 4, "time": "one month ago", "text": "The rice wine tastes really good although a little bit too sweet for me. The cheese rice cake is my favorite because it's chewy and fabulous..." }] }, { "rating": "3.5", "number_of_reviews": "13", "source": "www.tripadvisor.com", "id": 0, "reviews": [] }, { "rating": "it", "number_of_reviews": "N/A", "source": "www.booking.com", "id": 0, "reviews": [] }, { "rating": "4.3", "number_of_reviews": "29", "source": "www.facebook.com", "id": 0, "reviews": [] }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "https://www.nytimes.com/2017/11/09/dining/joomak-review-korean-food-melbourne-australia.html", "summary": "Joomak is hidden underground in the basement of a personality-less Melbourne office building, serving late night Korean pub food that&rsquo;s hard to find elsewhere in the city. Who is cramming into the long low room, with its booths tucked into nooks along its sides? Mainly young people speaking Korean. They&rsquo;re here for blended sochu and fruit slushies, served in pitchers, and unfiltered rice wine on tap, served in metal tea kettles and drank from shallow metal bowls. And they&rsquo;re here for the food that goes with drinking: corn kernels heaped in a pile and smothered in melted cheese; egg rolls stuffed with cheese and fish roe; and yes, spicy pan-fried chicken.", "by": "mark josephson 11/9/2017" } }] 
-};
+var restaurant = { "metadata": { "google_id": "ChIJ-4xJz7AcdkgRt0jZLI7DAEU", "address": "56A Shoreditch High St, London E1 6PQ, UK", "name": "Pizza East", "phone_number": "020 7729 1888", "area_near": "56A Shoreditch High Street, London", "description": "Pizza East, Shoreditch High Street, London, United Kingdom", "website": "http://www.pizzaeast.com/", "location": { "lat": 51.5238239, "lng": -0.07689069999999999 } }, "reviews": [{ "rating": 4.1, "number_of_reviews": "N/A", "source": "google", "reviews": [{ "rating": 5, "time": "a week ago", "text": "Great pizzas for a decent price. The vibe is really good too, very casual. I was vegan and the time and was able to easily choose from various options. Also, they serve their red wine in a tumbler, which I love." }, { "rating": 5, "time": "3 weeks ago", "text": "We visited mid week at around 7pm. Wine was delicious. The food was on point and arrived within good time. A little crowded in the evening, but the vibe was good. Prices were reasonable for the fresh quality of food." }, { "rating": 1, "time": "3 months ago", "text": "Having been a regular customer at Pizza East since it opened, I feel obliged to write a review. As it really has upset me that both the service and the management last Monday were a huge disappointment. Working around the corner, Pizza East has been the base for many meetings, staff training and celebrations. Therefore, when a close friend was leaving the country for good, we thought Pizza East would make the perfect send-off location. We couldn’t have been more wrong. Firstly, the waitress had terrible attitude, unapproachable and considering we were a group of adults celebrating she was not the person to be our host. Secondly, we specifically chose to dine on a Monday at Pizza East to receive the 50% off, using the Pizza East keyring. However, because we were a group of 9 rather than a group of 8 they would not honour that, even though we never knew this was an issue. You would assume that management would be able to make an executive decision and keep 9 happy customers, rather than having a black cloud of dissatisfaction post meal. Otherwise, we would have made a booking on another day of the week outside of the discount day. However, now we know not to return to Pizza East, as there is no customer loyalty in this restaurant or any form of understanding. Which has forced me to write a review, as I feel it is necessary for them to understand that having a customer who has been to your restaurant for years, is shocked by the service and communication we received on Monday. Luckily Pizza Pilgrims has opened seconds down the road." }, { "rating": 5, "time": "2 weeks ago", "text": "Totally delicious food and drinks, efficient and attentive service. It's not cheap but you get what you pay for- it's very high quality. I recommend anything that comes with burrata" }, { "rating": 4, "time": "2 months ago", "text": "Had A pleasant surprise tonight when my girlfriend was not satisfied with her pizza(more a personal taste thing, expecting something else. Quality was not the issue) and the waiter immediately had the pizza redacted from our bill without us saying a word. Great service even though it was very full on a Friday night.\nMy pizza was delicious!" }] }, { "rating": "4.3", "number_of_reviews": "281", "source": "zomato", "zomato_id": "6104609", "reviews": [{ "rating": 4.5, "time": "3 months ago", "text": "Great place to eat it was busy on Monday because they have a half price offer on food with a fob. Get the fob. The pizza was really good and..." }, { "rating": 5, "time": "5 months ago", "text": "One of my best meals in London!  Even after screwing up the mocktail I'd asked for, they gladly changed it and brought something better on t..." }, { "rating": 4.5, "time": "5 months ago", "text": "The place is really nice and beautiful and the food especially the pizzas are extremely tasty!   However is usually too full if you don't ha..." }, { "rating": 5, "time": "5 months ago", "text": "Amazing pizzas! The crust is light and airy, delicious passion fruit and vodka cocktail, really really nice decor and setting, would love to..." }, { "rating": 4, "time": "8 months ago", "text": "I visited Pizza East with the Eating London Food Tour to try their famous salted caramel chocolate tart. I didn't enjoy it as much as expect..." }] }, { "rating": 4.4, "number_of_reviews": 501, "source": "facebook", "facebook_id": "1813879718845438", "reviews": [] }, { "source": "instagram", "instagram_id": "1813879718845438", "reviews": [], "photos": { "url": "https://www.instagram.com/explore/locations/1813879718845438/" } }, { "rating": "4", "number_of_reviews": "1175", "source": "www.tripadvisor.com", "id": 0, "reviews": [] }, { "rating": "4.4", "source": "www.opentable.com", "id": 0, "reviews": [] }, { "rating": "3.1", "source": "www.timeout.com", "id": 0, "reviews": [] }, { "rating": 3.5, "number_of_reviews": 223, "source": "yelp", "yelp_id": "pizza-east-london", "reviews": [{ "rating": 4, "time": "2017-09-15 01:24:09", "text": "This is a very nice Pizzeria in the heart of Shoreditch.\nThe quality of the food is high. We started sharing delicious lamb meatball then we had one salami..." }, { "rating": 3, "time": "2017-10-18 07:16:13", "text": "Had dinner here on a Monday night (50% night) & must declare an interest inasmuch as my mate is on good terms with the staff therefore any waiting around or..." }, { "rating": 1, "time": "2017-08-12 07:44:46", "text": "By far the worst dining experience in many many years.\n\nNegatives\n- The bar area to wait while your table is ready is chaotic and slow. Maybe the concept is..." }] }] }

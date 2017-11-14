@@ -39,7 +39,7 @@ restService.get('/api/reviews',function(req,res) {
      };
      let retVal=repositor_review.get_reviews(request);
  
-     console.log("request review end with " + JSON.stringify(retVal))
+    // console.log("request review end with " + JSON.stringify(retVal))
      res.json(retVal);
  });
  
