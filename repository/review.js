@@ -34,13 +34,13 @@ module.exports = {
             catch (e) {
                 console.log("google for " + request.name + " reviews did work error:" + e.message + e.stack)
             }
-            console.log('start get data '+new Date().getSeconds()); 
+            console.log('start get data ' + new Date().getSeconds());
             let promises = [];
             let IsPromisesDone = false;
             // get yelp reviews
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start yelp");                    
+                    console.log("start yelp");
                     try {
                         let yelp_review = get_yelp(GoogleLocationInformation.metadata)
                         retVal.reviews.push(yelp_review);
@@ -48,7 +48,7 @@ module.exports = {
                     catch (e) {
                         console.log("yelp for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
-                    console.log("end yelp");                    
+                    console.log("end yelp");
                     resolve('Success!');
                 }, 1)
             }));
@@ -56,7 +56,7 @@ module.exports = {
             // get  zomato reviews
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start zomato");                    
+                    console.log("start zomato");
                     try {
                         let zomato_review = get_zomato(GoogleLocationInformation.metadata)
                         retVal.reviews.push(zomato_review);
@@ -65,7 +65,7 @@ module.exports = {
                         console.log("zomato for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
                     resolve('Success!');
-                    console.log("end zomato");                    
+                    console.log("end zomato");
                 }, 10)
             }));
 
@@ -87,7 +87,7 @@ module.exports = {
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start rest");                                        
+                    console.log("start rest");
                     try {
                         let rest_review = get_rest(GoogleLocationInformation.metadata)
                         retVal.reviews = retVal.reviews.concat(rest_review);
@@ -95,14 +95,14 @@ module.exports = {
                     catch (e) {
                         console.log("rest for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
-                    console.log("end rest");                                        
+                    console.log("end rest");
                     resolve('Success!');
                 }, 10)
             }));
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start NYC");                                        
+                    console.log("start NYC");
                     try {
                         let NYC_review = get_NewTimes(GoogleLocationInformation.metadata);
                         if (NYC_review) {
@@ -113,7 +113,7 @@ module.exports = {
                         console.log("NYT for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
                     resolve('Success!');
-                    console.log("end NYC");                                        
+                    console.log("end NYC");
                 }, 10)
             }));
 
@@ -124,8 +124,8 @@ module.exports = {
             while (!IsPromisesDone) {
                 require('deasync').sleep(250);
             }
-            
-            console.log('end  get data '+new Date().getSeconds()); 
+
+            console.log('end  get data ' + new Date().getSeconds());
         }
         else {
             console.log("google for " + request.name + " didn't find anything")
@@ -310,7 +310,7 @@ function get_zomato(metadata) {
         zomato_review_result = JSON.parse(response);
     }
     catch (e) {
-        console.log("review failed zomato error "+ e.message + e.stack);
+        console.log("review failed zomato error " + e.message + e.stack);
         throw e;
     }
 
@@ -396,7 +396,7 @@ function get_facebook_instagram(metadata) {
         reviews: [],
         review_article: undefined,
         photos: {
-            url: 'https://www.instagram.com/explore/locations/'+facebook_id+'/'
+            url: 'https://www.instagram.com/explore/locations/' + facebook_id + '/'
         }
     })
     return retval;
@@ -405,51 +405,42 @@ function get_facebook_instagram(metadata) {
 
 function get_rest(metadata) {
     // get token from yelp
-    let google_search_result;
+    let google_search_result = { items: [] };
     try {
-        //no facebook
+        //google search 1
         let request_get = {
             url: 'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:9tp-ocrbvdw&q=' + metadata.description + ' Rating'
         };
         let response = context_common.http.request_get(request_get);
-        google_search_result = JSON.parse(response);
+        google_search_result.items = google_search_result.items.concat(JSON.parse(response).items);
+    }
+    catch (e) {
+        console.log("search 1 failed google error " + e.message + e.stack);
+        throw e;
+    }
 
-        //facebook
-        request_get = {
+    try {
+        //google search 2
+        let request_get = {
             url: 'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:eq7nh5o0slm&q=' + metadata.description + ' Rating'
         };
-        response = context_common.http.request_get(request_get);
+        let response = context_common.http.request_get(request_get);
         google_search_result.items = google_search_result.items.concat(JSON.parse(response).items);
 
     }
     catch (e) {
-        console.log("search failed google error " + e.message + e.stack);
+        console.log("search 2 failed google error " + e.message + e.stack);
         throw e;
     }
 
-    let tripadviser_id = google_search_result.items[0].formattedUrl.split("g")[1].split('-')[0];
-    let tripadviser_result;
-    try {
-        let request_get = {
-            url: 'http://api.tripadvisor.com/api/partner/2.0/location/' + tripadviser_id + '?key=',
-            headers: { "X-TripAdvisor-API-Key": "" }
-
-        };
-        let response = context_common.http.request_get(request_get);
-        tripadviser_result = JSON.parse(response);
-    }
-    catch (e) {
-        console.log("failed tripadviser error " + e.message + e.stack);
-        throw e;
-    }
     // in case one of the values is NOT int throw exception 
     let retVal = [];
     let includes = [];
     google_search_result.items.forEach(function (element) {
-        if (!element.displayLink.includes("yelp")
-            && !element.displayLink.includes("zomato")
-            && !includes.includes(element.displayLink)) {
-            try {
+        try {
+            if (!element.displayLink.includes("yelp")
+                && !element.displayLink.includes("zomato")
+                && !includes.includes(element.displayLink)) {
                 let rating;
                 let number_of_reviews = "N/A";
                 try {
@@ -487,14 +478,33 @@ function get_rest(metadata) {
                     retVal.push(obj);
                 }
             }
-            catch (e) {
-                console.log("rest parse rating failed for " + element.displayLink)
-            }
         }
+        catch (e) {
+            console.log("rest parse rating failed for " + element.displayLink)
+        }
+
     })
     return retVal;
 }
 
+//not in use
+function get_tripadviser() {
+    let tripadviser_id = google_search_result.items[0].formattedUrl.split("g")[1].split('-')[0];
+    let tripadviser_result;
+    try {
+        let request_get = {
+            url: 'http://api.tripadvisor.com/api/partner/2.0/location/' + tripadviser_id + '?key=',
+            headers: { "X-TripAdvisor-API-Key": "" }
+
+        };
+        let response = context_common.http.request_get(request_get);
+        tripadviser_result = JSON.parse(response);
+    }
+    catch (e) {
+        console.log("failed tripadviser error " + e.message + e.stack);
+        throw e;
+    }
+}
 function get_NewTimes(metadata) {
     let retval;
     let array_reviews_NYT = [];
