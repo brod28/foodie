@@ -5,9 +5,6 @@ const jsonQuery = require('json-query')
 
 
 module.exports = {
-    exceptionToString(e) {
-        return e.message + e.stack;
-    },
     get_reviews(request) {
         // creating object to return
         let retVal = {
@@ -22,7 +19,7 @@ module.exports = {
             GoogleLocationBasicInformation = locationRepository.search({ name: request.name })[0];
         }
         catch (e) {
-            console.log("google for " + request.name + " search did work error:" + this.exceptionToString(e))
+            console.log("google for " + request.name + " search did work error:" + e.message + e.stack)
         }
         //get all the reviews
         if (GoogleLocationBasicInformation != undefined) {
@@ -96,7 +93,7 @@ module.exports = {
                         retVal.reviews = retVal.reviews.concat(rest_review);
                     }
                     catch (e) {
-                        console.log("rest for " + request.name + "reviews did work error:" + this.exceptionToString(e))
+                        console.log("rest for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
                     console.log("end rest");                                        
                     resolve('Success!');
@@ -113,7 +110,7 @@ module.exports = {
                         }
                     }
                     catch (e) {
-                        console.log("NYT for " + request.name + "reviews did work error:" + this.exceptionToString(e))
+                        console.log("NYT for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
                     resolve('Success!');
                     console.log("end NYC");                                        
@@ -151,14 +148,14 @@ function get_google(GoogleLocationInformation) {
 
     }
     catch (e) {
-        console.log("call to google failed url " + get_request.url + " error " + this.exceptionToString(e));
+        console.log("call to google failed url " + get_request.url + " error " + e.message + e.stack);
         throw e;
     }
     try {
         json = JSON.parse(response);
     }
     catch (e) {
-        console.log("failed to parse google response " + response + " error " + this.exceptionToString(e));
+        console.log("failed to parse google response " + response + " error " + e.message + e.stack);
         throw e;
     }
     // parse reviews to correct structure
@@ -212,7 +209,7 @@ function get_yelp(metadata) {
         access_token = JSON.parse(token).access_token;
     }
     catch (e) {
-        console.log("failed toget token for yelp error " + this.exceptionToString(e));
+        console.log("failed toget token for yelp error " + e.message + e.stack);
         throw e;
     }
 
@@ -240,7 +237,7 @@ function get_yelp(metadata) {
         }
     }
     catch (e) {
-        console.log("failed yelp search " + this.exceptionToString(e));
+        console.log("failed yelp search " + e.message + e.stack);
         throw e;
     }
 
@@ -260,7 +257,7 @@ function get_yelp(metadata) {
         }
     }
     catch (e) {
-        console.log("failed yelp get business data or reviews " + this.exceptionToString(e));
+        console.log("failed yelp get business data or reviews " + e.message + e.stack);
         throw e;
     }
 
@@ -299,7 +296,7 @@ function get_zomato(metadata) {
         zomato_search_result = JSON.parse(response);
     }
     catch (e) {
-        console.log("search failed zomato error " + this.exceptionToString(e));
+        console.log("search failed zomato error " + e.message + e.stack);
         throw e;
     }
     let zomato_restaurant = zomato_search_result.restaurants[0].restaurant;
@@ -313,7 +310,7 @@ function get_zomato(metadata) {
         zomato_review_result = JSON.parse(response);
     }
     catch (e) {
-        console.log("review failed zomato error " + this.exceptionToString(e));
+        console.log("review failed zomato error "+ e.message + e.stack);
         throw e;
     }
 
@@ -352,7 +349,7 @@ function get_facebook_instagram(metadata) {
         access_token = JSON.parse(response).access_token;
     }
     catch (e) {
-        console.log("access token failed facebook error " + this.exceptionToString(e));
+        console.log("access token failed facebook error " + e.message + e.stack);
         throw e;
     }
 
@@ -366,7 +363,7 @@ function get_facebook_instagram(metadata) {
         facebook_id = JSON.parse(response).data[0].id;
     }
     catch (e) {
-        console.log("search failed facebook error " + this.exceptionToString(e));
+        console.log("search failed facebook error " + e.message + e.stack);
         throw e;
     }
     let facebook_data;
@@ -378,7 +375,7 @@ function get_facebook_instagram(metadata) {
         facebook_data = JSON.parse(response);
     }
     catch (e) {
-        console.log("get info failed facebook error " + this.exceptionToString(e));
+        console.log("get info failed facebook error " + e.message + e.stack);
         throw e;
     }
 
@@ -426,7 +423,7 @@ function get_rest(metadata) {
 
     }
     catch (e) {
-        console.log("search failed google error " + this.exceptionToString(e));
+        console.log("search failed google error " + e.message + e.stack);
         throw e;
     }
 
@@ -442,7 +439,7 @@ function get_rest(metadata) {
         tripadviser_result = JSON.parse(response);
     }
     catch (e) {
-        console.log("failed tripadviser error " + this.exceptionToString(e));
+        console.log("failed tripadviser error " + e.message + e.stack);
         throw e;
     }
     // in case one of the values is NOT int throw exception 
