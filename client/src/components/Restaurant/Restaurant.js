@@ -62,7 +62,8 @@ class Restaurant extends Component {
               restaurant: restaurant,
               reviews: reviews,
               articles: articles,
-              photos: photos
+              photos: photos,
+              menus:menus
             });
           }
           );
