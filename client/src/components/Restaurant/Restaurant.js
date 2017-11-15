@@ -4,6 +4,8 @@ import Articles4andMore from './Articles4andMore/Articles4andMore'
 import PhotosandMore from './PhotosandMore/PhotosandMore'
 import Reviews from './Reviews/Reviews'
 import HeaderForPopup from '../Header/HeaderForPopup'
+import Menus from './Menus/Menus'
+
 import {
   BrowserRouter as Router,
   Route,
@@ -21,13 +23,14 @@ class Restaurant extends Component {
   }
 
   componentDidMount() {
-    
+    /*
         fetch('/api/reviews?name=' + this.props.name)
           .then(res => res.json())
           .then(restaurant => {
             let reviews = [];
             let articles = [];
             let photos = [];
+            let menus=[];
             let id_counter = 0;
             restaurant.reviews.forEach(function (element) {
               id_counter++;
@@ -41,6 +44,11 @@ class Restaurant extends Component {
                 id_counter++;
                 element.photos.inner_id = id_counter;
                 photos.push(element);
+              }
+              else if (element.menu) {
+                id_counter++;
+                element.menu.inner_id = id_counter;
+                menus.push(element);
               }
               else {
                 element.reviews.forEach(function (review) {
@@ -58,40 +66,46 @@ class Restaurant extends Component {
             });
           }
           );
-    /*
-    let reviews = [];
-    let articles = [];
-    let photos = [];
-    let id_counter = 0;
-    restaurant.reviews.forEach(function (element) {
-      id_counter++;
-      element.inner_id = id_counter;
-      if (element.review_article) {
-        id_counter++;
-        element.review_article.inner_id = id_counter;
-        articles.push(element);
-      }
-      else if (element.photos) {
-        id_counter++;
-        element.photos.inner_id = id_counter;
-        photos.push(element);
-      }
-      else {
-        element.reviews.forEach(function (review) {
-          id_counter++;
-          review.inner_id = id_counter;
-        })
-        reviews.push(element);
-      }
-    });
-    this.setState({
-      restaurant: restaurant,
-      reviews: reviews,
-      articles: articles,
-      photos: photos
-    });
+    */
+   let reviews = [];
+            let articles = [];
+            let photos = [];
+            let menus=[];
+            let id_counter = 0;
+            restaurant.reviews.forEach(function (element) {
+              id_counter++;
+              element.inner_id = id_counter;
+              if (element.review_article) {
+                id_counter++;
+                element.review_article.inner_id = id_counter;
+                articles.push(element);
+              }
+              else if (element.photos) {
+                id_counter++;
+                element.photos.inner_id = id_counter;
+                photos.push(element);
+              }
+              else if (element.menu) {
+                id_counter++;
+                element.menu.inner_id = id_counter;
+                menus.push(element);
+              }
+              else {
+                element.reviews.forEach(function (review) {
+                  id_counter++;
+                  review.inner_id = id_counter;
+                })
+                reviews.push(element);
+              }
+            });
+            this.setState({
+              restaurant: restaurant,
+              reviews: reviews,
+              articles: articles,
+              photos: photos,
+              menus:menus
+            });
 
-*/
   }
 
 
@@ -99,7 +113,7 @@ class Restaurant extends Component {
   render() {
     let restaurantName = <p>Loading restaurant information... </p>;
     if (this.state.restaurant.metadata) {
-      restaurantName = <HeaderForPopup name={this.state.restaurant.metadata.name} />;
+      restaurantName = <HeaderForPopup name={this.state.restaurant.metadata.name} url={this.state.restaurant.metadata.website}/>;
     }
     let reviews4andMore = <p>Loading reviews... </p>;
     if (this.state.reviews) {
@@ -114,6 +128,12 @@ class Restaurant extends Component {
     if (this.state.photos) {
       photosandMore = <PhotosandMore photos={this.state.photos} />
     }
+    let menus = <p>Loading menus... </p>;
+    if (this.state.menus) {
+      menus = <Menus menus={this.state.menus} />
+    }
+
+    
 
     return (
       <div className="popup">
@@ -128,6 +148,9 @@ class Restaurant extends Component {
           <Route path="/restaurant/:name" render={({ match }) => (
             photosandMore
           )} />
+          <Route path="/restaurant/:name" render={({ match }) => (
+            menus
+          )} />
 
         </div>
       </div>
@@ -138,4 +161,4 @@ class Restaurant extends Component {
 export default Restaurant;
 
 
-var restaurant = { "metadata": { "google_id": "ChIJ-4xJz7AcdkgRt0jZLI7DAEU", "address": "56A Shoreditch High St, London E1 6PQ, UK", "name": "Pizza East", "phone_number": "020 7729 1888", "area_near": "56A Shoreditch High Street, London", "description": "Pizza East, Shoreditch High Street, London, United Kingdom", "website": "http://www.pizzaeast.com/", "location": { "lat": 51.5238239, "lng": -0.07689069999999999 } }, "reviews": [{ "rating": 4.1, "number_of_reviews": "N/A", "source": "google", "reviews": [{ "rating": 5, "time": "a week ago", "text": "Great pizzas for a decent price. The vibe is really good too, very casual. I was vegan and the time and was able to easily choose from various options. Also, they serve their red wine in a tumbler, which I love." }, { "rating": 5, "time": "3 weeks ago", "text": "We visited mid week at around 7pm. Wine was delicious. The food was on point and arrived within good time. A little crowded in the evening, but the vibe was good. Prices were reasonable for the fresh quality of food." }, { "rating": 1, "time": "3 months ago", "text": "Having been a regular customer at Pizza East since it opened, I feel obliged to write a review. As it really has upset me that both the service and the management last Monday were a huge disappointment. Working around the corner, Pizza East has been the base for many meetings, staff training and celebrations. Therefore, when a close friend was leaving the country for good, we thought Pizza East would make the perfect send-off location. We couldn’t have been more wrong. Firstly, the waitress had terrible attitude, unapproachable and considering we were a group of adults celebrating she was not the person to be our host. Secondly, we specifically chose to dine on a Monday at Pizza East to receive the 50% off, using the Pizza East keyring. However, because we were a group of 9 rather than a group of 8 they would not honour that, even though we never knew this was an issue. You would assume that management would be able to make an executive decision and keep 9 happy customers, rather than having a black cloud of dissatisfaction post meal. Otherwise, we would have made a booking on another day of the week outside of the discount day. However, now we know not to return to Pizza East, as there is no customer loyalty in this restaurant or any form of understanding. Which has forced me to write a review, as I feel it is necessary for them to understand that having a customer who has been to your restaurant for years, is shocked by the service and communication we received on Monday. Luckily Pizza Pilgrims has opened seconds down the road." }, { "rating": 5, "time": "2 weeks ago", "text": "Totally delicious food and drinks, efficient and attentive service. It's not cheap but you get what you pay for- it's very high quality. I recommend anything that comes with burrata" }, { "rating": 4, "time": "2 months ago", "text": "Had A pleasant surprise tonight when my girlfriend was not satisfied with her pizza(more a personal taste thing, expecting something else. Quality was not the issue) and the waiter immediately had the pizza redacted from our bill without us saying a word. Great service even though it was very full on a Friday night.\nMy pizza was delicious!" }] }, { "rating": "4.3", "number_of_reviews": "281", "source": "zomato", "zomato_id": "6104609", "reviews": [{ "rating": 4.5, "time": "3 months ago", "text": "Great place to eat it was busy on Monday because they have a half price offer on food with a fob. Get the fob. The pizza was really good and..." }, { "rating": 5, "time": "5 months ago", "text": "One of my best meals in London!  Even after screwing up the mocktail I'd asked for, they gladly changed it and brought something better on t..." }, { "rating": 4.5, "time": "5 months ago", "text": "The place is really nice and beautiful and the food especially the pizzas are extremely tasty!   However is usually too full if you don't ha..." }, { "rating": 5, "time": "5 months ago", "text": "Amazing pizzas! The crust is light and airy, delicious passion fruit and vodka cocktail, really really nice decor and setting, would love to..." }, { "rating": 4, "time": "8 months ago", "text": "I visited Pizza East with the Eating London Food Tour to try their famous salted caramel chocolate tart. I didn't enjoy it as much as expect..." }] }, { "rating": 4.4, "number_of_reviews": 501, "source": "facebook", "facebook_id": "1813879718845438", "reviews": [] }, { "source": "instagram", "instagram_id": "1813879718845438", "reviews": [], "photos": { "url": "https://www.instagram.com/explore/locations/1813879718845438/" } }, { "rating": "4", "number_of_reviews": "1175", "source": "www.tripadvisor.com", "id": 0, "reviews": [] }, { "rating": "4.4", "source": "www.opentable.com", "id": 0, "reviews": [] }, { "rating": "3.1", "source": "www.timeout.com", "id": 0, "reviews": [] }, { "rating": 3.5, "number_of_reviews": 223, "source": "yelp", "yelp_id": "pizza-east-london", "reviews": [{ "rating": 4, "time": "2017-09-15 01:24:09", "text": "This is a very nice Pizzeria in the heart of Shoreditch.\nThe quality of the food is high. We started sharing delicious lamb meatball then we had one salami..." }, { "rating": 3, "time": "2017-10-18 07:16:13", "text": "Had dinner here on a Monday night (50% night) & must declare an interest inasmuch as my mate is on good terms with the staff therefore any waiting around or..." }, { "rating": 1, "time": "2017-08-12 07:44:46", "text": "By far the worst dining experience in many many years.\n\nNegatives\n- The bar area to wait while your table is ready is chaotic and slow. Maybe the concept is..." }] }] }
+var restaurant = {"metadata":{"google_id":"ChIJEWbXz6ZZwokRLKmKrtPfVFY","address":"11 Madison Ave, New York, NY 10010, USA","name":"Eleven Madison Park","phone_number":"(212) 889-0905","area_near":"11 Madison Avenue, New York","description":"Eleven Madison Park, Madison Avenue, New York, NY, United States","website":"https://www.elevenmadisonpark.com/","location":{"lat":40.7415114,"lng":-73.9869677}},"reviews":[{"rating":4.6,"number_of_reviews":"N/A","source":"google","reviews":[{"rating":5,"time":"a week ago","text":"Went here for a work lunch and while the name has quite a reputation, I wanted to go in with an open mind to see for myself if this place can satisfy every palate. \nI should preface the review saying this: it did.\nWe started with a salad that offered the perfect amount of crunch to smooth, sweet to sour, fruit to vegetable. We had a baked sweet corn grit that was beyond perfect. The crisp layer of carmelization on the top was to die for. \nFor dessert, we had a chocolate sculpture who's name I don't remember. Imagine decadent chocolate perfectly formed into a rectangle box. Open the box and find a chocolate cake. A unique design that was so rich I'm glad to have shared it among 4 people. Melted in your mouth.\nSurprisingly, the price wasn't too expensive compared to other restaurants in NYC that aren't even on the same scale as this.\nI'd go back for apps or drinks some night just to get another fill"},{"rating":5,"time":"4 weeks ago","text":"I came here with three friends to celebrate our summer birthdays. As tasting menus go, this one I would say was more inventive and followed a distinct theme of summer in New York. It brought to life the districts, the people, the food/ ingredients and the summer activities. A lot of people have spoken about the food, I will only add that it was as wonderful as they all say. I think for me, the finishing touches stood out the most, the slightly dented plates for the picnic in central park, and the little grill that comes to the table to grill the peaches for dessert. The staff were very accommodating with tastes and palates, we had 2 vegetarians and a pescetarian in the party, with very different approaches to cocktails and menu items. \n\nOverall, a great experience, I would definitely recommend doing the tasting menu here."},{"rating":3,"time":"3 months ago","text":"I loved and hated it all at once. Most of the food was delicious, but portions were very small for my taste. Presentation and flavors were excellent. Original and classic drinks. Pear dessert tasted canned. Overall for the steep price and 5 stars everything must be a home run, this place was a double at best on this trip."},{"rating":5,"time":"a week ago","text":"There is a good reason it's #1 in the world. Chef Humm has taken Americana food and ingredients, French preparation, quality ingredients and honest simplicity and blended something truly amazing. This is the greatest dining experience I've ever had in my life."},{"rating":4,"time":"4 months ago","text":"Amazing meal, but even more amazing service. \n\nI went in the middle of January, so take my review with a grain of salt, as I wasn't going during peak seasonality for produce. I'm planning on going again in summer-fall months to see how the menu changes. \n\nEverything that I ate was amazing, and I enjoyed every course, but I felt the overall menu was a little bland. There were a LOT of items with celery root (which I love), but I do wish the menu had more diversity. \n\nPros:\n- Best service I've ever had. (and they don't even allow gratuity) Everyone was very friendly, well trained, accommodating, and on top of everything\n- Great food. More traditional and less experimental, the overall word I'd use for the menu would be \"refined\"\n- Great cocktails, really well balanced\n- Classy table-side service that doesn't feel awkward or forced (I did the Manhattan cocktail cart and the vacuum coffee)\n- There are parts of the menu where you can select your course, so we were able to share dishes to taste more items\n- They really care about your experience. There's a small bite waiting for you when you arrive and they send you off with a parting dish\n\nCons:\n- I personally enjoy a bit more experimentation and unique flavors in my menu, and I felt that was missing\n- Although the staff was very friendly and casual, the overall restaurant still has a formal vibe that borders on stuffy. (not too bad though)\n- I'm not usually one to complain about portion sizes, but I do wish a few courses were slightly larger (specifically the main protein, a duck breast in my case)\n\nMy favorite dish was a clever take on eggs Benedict where there was a tin filled with ham, grits (I think), caviar, and a Hollandaise foam. I thought it was both clever and delicious.\n\nOverall I'd definitely recommend going, but maybe call ahead and check what the menu is, or go during a peak produce season?"}]},{"rating":"4.7","number_of_reviews":"731","source":"zomato","zomato_id":"16765367","reviews":[{"rating":4,"time":"one month ago","text":"Had tremendously mountain-top high expectation for this restaurant. Let me start with why the four star.   1. Kinda expecting all the beauti..."},{"rating":5,"time":"3 months ago","text":"Great Food, Great Service. Loved it 👍  Good ambience too.. As i am a foodie, i always ensure I have the best quality food. I was not disa..."},{"rating":5,"time":"4 months ago","text":"Had an amazing experience here, just wanted to talk about the people who attended to our table which enhanced our time here. Enjoyed the coc..."},{"rating":5,"time":"6 months ago","text":"What can I say. Second time to Eleven. Amazing dego. Fantastic company. Service and food the best in the world. The only downside was the he..."},{"rating":4,"time":"6 months ago","text":"I attended a security vendor event at this restaurant and the food was amazing. For appetizer, I had the scallop, for entree beef and desser..."}]},{"rating":4.8,"number_of_reviews":1617,"source":"facebook","facebook_id":"55764337255","reviews":[]},{"source":"instagram","instagram_id":"55764337255","reviews":[],"photos":{"url":"https://www.instagram.com/explore/locations/55764337255/"}},{"rating":"#2","number_of_reviews":"N/A","source":"www.tripadvisor.com","id":0,"reviews":[]},{"rating":"4.7","source":"www.opentable.com","id":0,"reviews":[]},{"rating":"4.7","source":"www.timeout.com","id":0,"reviews":[]},{"rating":"N/A","number_of_reviews":"N/A","source":"New York Times","zomato_id":0,"reviews":[],"review_article":{"url":"http://www.nytimes.com/2015/03/18/dining/restaurant-review-eleven-madison-park-in-midtown-south.html","summary":"Eleven Madison Park adopted a tasting menu on the theme of New York, meals have been marred by goofy tableside history lessons. And the chef, Daniel Humm, practices a locavorism that is strictly entry-level stuff. What Eleven Madison feeds your intellect can have the value of junk food, but what it feeds your mouth, stomach and spirit is something else. Both the kitchen and the dining room staff try as hard as any to bring delight to the table with every course. They succeed so often that only the most determinedly grumpy souls could resist.","by":"Confirmed 09/10.-mek-- NOTE: blank postcode on 2011-01-20; Mapped 2/2/11, TG; confirmed 4/20/11 - EL; confirmed 12/21/11 EL; confirmed open via recorded message and they put you on hold, to good jazz, forever.   7/23/14 - EL; sarabonisteel 3/17/15"}},{"rating":"N/A","number_of_reviews":"N/A","source":"foursquare","foursquare_id":"457ebeaaf964a5203f3f1fe3","menu":{"url":"https://foursquare.com/v/457ebeaaf964a5203f3f1fe3/device_menu"}},{"rating":"N/A","number_of_reviews":"N/A","source":"foursquare","foursquare_id":"457ebeaaf964a5203f3f1fe3","photos":{"photos":[{"url":"https://igx.4sqi.net/img/general/width223/159476_E7juwkd8AW0CE5cvuECrs3ISgFxIXkAzUSH-vFgKBTM.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/37925049_240kJMAJnFpKEXTCvnJIY8nW-lVuNyXkJAfhzu6tl7I.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_eO-DuFs4T59WkcVToQDwxWx80RvlEUQ9d3GU-9TQ_KU.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_tTgTpIFTFn_NLLthct2yGVdhTBq2tRIhowIP3FRNAZU.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_kaaQwt-2tKoxwkp1jCw1nHJxbmVlgKeKt0U-vRCGVBY.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_MRgBZik759WmgQD0v_ibUALK9pW-eB-6W-fMHY80B-0.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_t92LI9rPay4DbAZzA5krkw5xAVSoy-7V7v5JdtTcdHA.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/42124__2MfMKxgxrV8W8ofVrzFpYiBQMZQ9sjQmnZu4HNPeEc.jpg"}]}},{"rating":"N/A","number_of_reviews":"N/A","source":"foursquare","foursquare_id":"457ebeaaf964a5203f3f1fe3","reviews":[{"time":1495135118,"text":"Absolutely exquisite - a meal I never wanted to end! Each course was like a delicious work of art. The milk & honey has to be one of best deserts I've ever had.","photo_url":"https://igx.4sqi.net/img/general/width223/208277245_jYFhxrwikn9KXBWF8t3wSBrzYvpMNg2eD2tKdSZeAkU.jpg"},{"time":1437371303,"text":"Ask for a tour of the kitchen. Everyone is super nice. Sit at the bar for a cheaper a la carte menu instead of paying $225 for the tasting menu in the dining room.","photo_url":"https://igx.4sqi.net/img/general/width223/3011910_dqWDDKqvvUEoFabIuUw1onLTVjl1cTqQp1DvyGkyDp8.jpg"},{"time":1426454117,"text":"One of the best meals I've ever had. The foie gras with pickled cabbage was one of my favs of the night. Looked like cake, tasted like butter.","photo_url":"https://igx.4sqi.net/img/general/width223/6608323_5lGDQ6J9gYwX2yhi0_puub2PyyxVDXuQGx2_mghUJsk.jpg"},{"time":1434463964,"text":"Superb service over a nearly four-hour dining experience. Graciously accommodated gluten-free requests. Great for special occasions.","photo_url":"https://igx.4sqi.net/img/general/width223/41380679_k3uT4NvLO985NJ8SLBe08IWHiW4YeD6L9W8gLyOajd4.jpg"},{"time":1407159789,"text":"Ensconced in a former bank lobby, the restaurant has soaring windows that offer a romantic view of the city's prettiest park.","photo_url":"https://igx.4sqi.net/img/general/width223/1868764_lm7DRwnT8xQa5fQBa8LfcOhGkiQ11Yx4KuvAV6y9LB8.jpg"},{"time":1420310043,"text":"The best restaurant in the world 😋 great tasting menu, the experience, the ambiance, and the service, all are amazing 😍","photo_url":"https://igx.4sqi.net/img/general/width223/6374465_8KnzfIrc4K0YS6S2DwU74zDR4YbOc7bPHjLFAejjHwg.jpg"}]},{"rating":4.5,"number_of_reviews":1678,"source":"yelp","yelp_id":"eleven-madison-park-new-york","reviews":[{"rating":5,"time":"2017-11-03 19:29:07","text":"This restaurant needs no introduction, nor does it need any more amateur food critic wannabes (dream job?) like myself from validating it with our less than..."},{"rating":3,"time":"2017-11-09 10:50:46","text":"Have you ever walked away from a restaurant disappointed and wanting a \"do over meal\" from somewhere that's actually good?  That was me.\n \nMy review is..."},{"rating":4,"time":"2017-11-06 16:33:27","text":"I can't believe I'm giving \"The Best Restaurant in the World\" a 4 star rating. Completely missing the WOW factor you expect as far as food is concerned. And..."}]}]}

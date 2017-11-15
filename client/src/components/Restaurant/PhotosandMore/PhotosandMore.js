@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PhotoLinks from './PhotoLinks'
+import PhotoGallery from './PhotoGallery'
 import {
   BrowserRouter as Router,
   Route,
@@ -16,10 +17,15 @@ class PhotosandMore extends Component {
           if(photo.photos.url){
               photos_external.push(photo);
           } 
+          if(photo.photos.photos){
+            photo.photos.photos.forEach(function(photo){
+              photos_internal.push(photo);
+            });
+          }
       })
       this.state = {
         number_of_more: 0,
-        photos_internal: [],
+        photos_internal: photos_internal,
         photos_external:photos_external,
         andmore:false
       }
@@ -44,13 +50,18 @@ class PhotosandMore extends Component {
       if(this.state.andmore){
         fullClass='popup';
       }
-      let photos_external='asdas'
+      let photos_internal=''
+      if(this.state.photos_internal.length>0){
+        photos_internal=<PhotoGallery photos={this.state.photos_internal}/>
+      }
+      let photos_external=''
       if(this.state.photos_external.length>0){
         photos_external=<PhotoLinks photos={this.state.photos_external}/>
       }
         return (
           <div className={fullClass}>
             <div id="photos_ancor" className="photos_and_more">
+              {photos_internal}
               {photos_external} 
             </div>
           </div>

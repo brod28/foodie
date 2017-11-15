@@ -34,12 +34,23 @@ class Reviews extends Component {
                 <div className="reviews">
                     {this.state.reviews.map(review =>
                         <div>
+                            {review.photo_url?
+                            <div>
+                                <img src={review.photo_url} />
+                            </div>
+                            :
+                            ''
+                            }
                             <p>
                                 {review.text}
                             </p>
+                            {review.rating?
                             <p>
                              {review.rating} of 5
                             </p>
+                            :
+                            ''
+                            }
                             <p>
                                 {review.time}
                             </p>

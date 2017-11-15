@@ -10,7 +10,8 @@ class HeaderForPopup extends Component {
         super(props);
         this.state={
             name:this.props.name,
-            back:this.props.back
+            back:this.props.back,
+            url:this.props.url
         };
     }
 
