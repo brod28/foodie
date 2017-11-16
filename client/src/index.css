@@ -2,6 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  text-align: center;
+  vertical-align: middle;
 }
 .popup{
   position: absolute;
@@ -36,11 +38,35 @@ body {
   text-decoration: underline
 }
 .reviews_4_and_more{
-  background-color: rgb(212, 204, 252)
+  max-width: 400px;
 }
 .articles_4_and_more{
   background-color: rgb(243, 196, 196)
 }
 .photos_and_more{
   background-color: rgb(196, 243, 216)  
+}
+
+.reviews_per_platfrom .review_stars img{
+  width: 20%;
+  max-width: 40px;
+}
+.reviews_per_platfrom img{
+  width: 100%;
+  max-width: 200px;
+}
+
+.reviews_per_platfrom li{
+  display: inline-block;
+  width: 50%;
+  max-width: 400px;
+}
+
+.photos_and_more div{
+  display: inline-block;
+  max-width:400px ;
+}
+  
+.photos_and_more img{
+  width:33%;
 }

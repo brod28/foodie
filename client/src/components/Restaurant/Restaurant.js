@@ -23,91 +23,64 @@ class Restaurant extends Component {
   }
 
   componentDidMount() {
-    
-        fetch('/api/reviews?name=' + this.props.name)
-          .then(res => res.json())
-          .then(restaurant => {
-            let reviews = [];
-            let articles = [];
-            let photos = [];
-            let menus=[];
-            let id_counter = 0;
-            restaurant.reviews.forEach(function (element) {
-              id_counter++;
-              element.inner_id = id_counter;
-              if (element.review_article) {
-                id_counter++;
-                element.review_article.inner_id = id_counter;
-                articles.push(element);
-              }
-              else if (element.photos) {
-                id_counter++;
-                element.photos.inner_id = id_counter;
-                photos.push(element);
-              }
-              else if (element.menu) {
-                id_counter++;
-                element.menu.inner_id = id_counter;
-                menus.push(element);
-              }
-              else {
-                element.reviews.forEach(function (review) {
-                  id_counter++;
-                  review.inner_id = id_counter;
-                })
-                reviews.push(element);
-              }
-            });
-            this.setState({
-              restaurant: restaurant,
-              reviews: reviews,
-              articles: articles,
-              photos: photos,
-              menus:menus
-            });
-          }
-          );
+    fetch('/api/reviews?name=' + this.props.name)
+      .then(res => res.json())
+      .then(restaurant => {
+        this.setState(this.getStateObject(restaurant));
+      });
     /*
-   let reviews = [];
-            let articles = [];
-            let photos = [];
-            let menus=[];
-            let id_counter = 0;
-            restaurant.reviews.forEach(function (element) {
-              id_counter++;
-              element.inner_id = id_counter;
-              if (element.review_article) {
-                id_counter++;
-                element.review_article.inner_id = id_counter;
-                articles.push(element);
-              }
-              else if (element.photos) {
-                id_counter++;
-                element.photos.inner_id = id_counter;
-                photos.push(element);
-              }
-              else if (element.menu) {
-                id_counter++;
-                element.menu.inner_id = id_counter;
-                menus.push(element);
-              }
-              else {
-                element.reviews.forEach(function (review) {
-                  id_counter++;
-                  review.inner_id = id_counter;
-                })
-                reviews.push(element);
-              }
-            });
-            this.setState({
-              restaurant: restaurant,
-              reviews: reviews,
-              articles: articles,
-              photos: photos,
-              menus:menus
-            });
-            */
+    this.setState(this.getStateObject(restaurant));
+*/
+  }
 
+  getStateObject = function (restaurant) {
+    let reviews_with_reviews = [];
+    let reviews = [];
+    let articles = [];
+    let photos = [];
+    let menus = [];
+    let id_counter = 0;
+    restaurant.reviews.forEach(function (element) {
+      id_counter++;
+      element.inner_id = id_counter;
+      if (element.review_article) {
+        id_counter++;
+        element.review_article.inner_id = id_counter;
+        articles.push(element);
+      }
+      else if (element.photos) {
+        id_counter++;
+        element.photos.inner_id = id_counter;
+        photos.push(element);
+      }
+      else if (element.menu) {
+        id_counter++;
+        element.menu.inner_id = id_counter;
+        menus.push(element);
+      }
+      else {
+        let has_reviews=false;
+        element.reviews.forEach(function (review) {
+          id_counter++;
+          review.inner_id = id_counter;
+          has_reviews=true;
+        })
+        if(has_reviews){
+          reviews_with_reviews.push(element);
+        }
+        else{
+          reviews.push(element);
+        }
+      }
+    });
+
+    return {
+      restaurant: restaurant,
+      reviews: reviews_with_reviews.concat(reviews),
+      articles: articles,
+      photos: photos,
+      menus: menus
+    };
   }
 
 
@@ -115,7 +88,7 @@ class Restaurant extends Component {
   render() {
     let restaurantName = <p>Loading restaurant information... </p>;
     if (this.state.restaurant.metadata) {
-      restaurantName = <HeaderForPopup name={this.state.restaurant.metadata.name} url={this.state.restaurant.metadata.website}/>;
+      restaurantName = <HeaderForPopup name={this.state.restaurant.metadata.name} url={this.state.restaurant.metadata.website} />;
     }
     let reviews4andMore = <p>Loading reviews... </p>;
     if (this.state.reviews) {
@@ -135,7 +108,7 @@ class Restaurant extends Component {
       menus = <Menus menus={this.state.menus} />
     }
 
-    
+
 
     return (
       <div className="popup">
@@ -163,4 +136,6 @@ class Restaurant extends Component {
 export default Restaurant;
 
 
-var restaurant = {"metadata":{"google_id":"ChIJEWbXz6ZZwokRLKmKrtPfVFY","address":"11 Madison Ave, New York, NY 10010, USA","name":"Eleven Madison Park","phone_number":"(212) 889-0905","area_near":"11 Madison Avenue, New York","description":"Eleven Madison Park, Madison Avenue, New York, NY, United States","website":"https://www.elevenmadisonpark.com/","location":{"lat":40.7415114,"lng":-73.9869677}},"reviews":[{"rating":4.6,"number_of_reviews":"N/A","source":"google","reviews":[{"rating":5,"time":"a week ago","text":"Went here for a work lunch and while the name has quite a reputation, I wanted to go in with an open mind to see for myself if this place can satisfy every palate. \nI should preface the review saying this: it did.\nWe started with a salad that offered the perfect amount of crunch to smooth, sweet to sour, fruit to vegetable. We had a baked sweet corn grit that was beyond perfect. The crisp layer of carmelization on the top was to die for. \nFor dessert, we had a chocolate sculpture who's name I don't remember. Imagine decadent chocolate perfectly formed into a rectangle box. Open the box and find a chocolate cake. A unique design that was so rich I'm glad to have shared it among 4 people. Melted in your mouth.\nSurprisingly, the price wasn't too expensive compared to other restaurants in NYC that aren't even on the same scale as this.\nI'd go back for apps or drinks some night just to get another fill"},{"rating":5,"time":"4 weeks ago","text":"I came here with three friends to celebrate our summer birthdays. As tasting menus go, this one I would say was more inventive and followed a distinct theme of summer in New York. It brought to life the districts, the people, the food/ ingredients and the summer activities. A lot of people have spoken about the food, I will only add that it was as wonderful as they all say. I think for me, the finishing touches stood out the most, the slightly dented plates for the picnic in central park, and the little grill that comes to the table to grill the peaches for dessert. The staff were very accommodating with tastes and palates, we had 2 vegetarians and a pescetarian in the party, with very different approaches to cocktails and menu items. \n\nOverall, a great experience, I would definitely recommend doing the tasting menu here."},{"rating":3,"time":"3 months ago","text":"I loved and hated it all at once. Most of the food was delicious, but portions were very small for my taste. Presentation and flavors were excellent. Original and classic drinks. Pear dessert tasted canned. Overall for the steep price and 5 stars everything must be a home run, this place was a double at best on this trip."},{"rating":5,"time":"a week ago","text":"There is a good reason it's #1 in the world. Chef Humm has taken Americana food and ingredients, French preparation, quality ingredients and honest simplicity and blended something truly amazing. This is the greatest dining experience I've ever had in my life."},{"rating":4,"time":"4 months ago","text":"Amazing meal, but even more amazing service. \n\nI went in the middle of January, so take my review with a grain of salt, as I wasn't going during peak seasonality for produce. I'm planning on going again in summer-fall months to see how the menu changes. \n\nEverything that I ate was amazing, and I enjoyed every course, but I felt the overall menu was a little bland. There were a LOT of items with celery root (which I love), but I do wish the menu had more diversity. \n\nPros:\n- Best service I've ever had. (and they don't even allow gratuity) Everyone was very friendly, well trained, accommodating, and on top of everything\n- Great food. More traditional and less experimental, the overall word I'd use for the menu would be \"refined\"\n- Great cocktails, really well balanced\n- Classy table-side service that doesn't feel awkward or forced (I did the Manhattan cocktail cart and the vacuum coffee)\n- There are parts of the menu where you can select your course, so we were able to share dishes to taste more items\n- They really care about your experience. There's a small bite waiting for you when you arrive and they send you off with a parting dish\n\nCons:\n- I personally enjoy a bit more experimentation and unique flavors in my menu, and I felt that was missing\n- Although the staff was very friendly and casual, the overall restaurant still has a formal vibe that borders on stuffy. (not too bad though)\n- I'm not usually one to complain about portion sizes, but I do wish a few courses were slightly larger (specifically the main protein, a duck breast in my case)\n\nMy favorite dish was a clever take on eggs Benedict where there was a tin filled with ham, grits (I think), caviar, and a Hollandaise foam. I thought it was both clever and delicious.\n\nOverall I'd definitely recommend going, but maybe call ahead and check what the menu is, or go during a peak produce season?"}]},{"rating":"4.7","number_of_reviews":"731","source":"zomato","zomato_id":"16765367","reviews":[{"rating":4,"time":"one month ago","text":"Had tremendously mountain-top high expectation for this restaurant. Let me start with why the four star.   1. Kinda expecting all the beauti..."},{"rating":5,"time":"3 months ago","text":"Great Food, Great Service. Loved it 👍  Good ambience too.. As i am a foodie, i always ensure I have the best quality food. I was not disa..."},{"rating":5,"time":"4 months ago","text":"Had an amazing experience here, just wanted to talk about the people who attended to our table which enhanced our time here. Enjoyed the coc..."},{"rating":5,"time":"6 months ago","text":"What can I say. Second time to Eleven. Amazing dego. Fantastic company. Service and food the best in the world. The only downside was the he..."},{"rating":4,"time":"6 months ago","text":"I attended a security vendor event at this restaurant and the food was amazing. For appetizer, I had the scallop, for entree beef and desser..."}]},{"rating":4.8,"number_of_reviews":1617,"source":"facebook","facebook_id":"55764337255","reviews":[]},{"source":"instagram","instagram_id":"55764337255","reviews":[],"photos":{"url":"https://www.instagram.com/explore/locations/55764337255/"}},{"rating":"#2","number_of_reviews":"N/A","source":"www.tripadvisor.com","id":0,"reviews":[]},{"rating":"4.7","source":"www.opentable.com","id":0,"reviews":[]},{"rating":"4.7","source":"www.timeout.com","id":0,"reviews":[]},{"rating":"N/A","number_of_reviews":"N/A","source":"New York Times","zomato_id":0,"reviews":[],"review_article":{"url":"http://www.nytimes.com/2015/03/18/dining/restaurant-review-eleven-madison-park-in-midtown-south.html","summary":"Eleven Madison Park adopted a tasting menu on the theme of New York, meals have been marred by goofy tableside history lessons. And the chef, Daniel Humm, practices a locavorism that is strictly entry-level stuff. What Eleven Madison feeds your intellect can have the value of junk food, but what it feeds your mouth, stomach and spirit is something else. Both the kitchen and the dining room staff try as hard as any to bring delight to the table with every course. They succeed so often that only the most determinedly grumpy souls could resist.","by":"Confirmed 09/10.-mek-- NOTE: blank postcode on 2011-01-20; Mapped 2/2/11, TG; confirmed 4/20/11 - EL; confirmed 12/21/11 EL; confirmed open via recorded message and they put you on hold, to good jazz, forever.   7/23/14 - EL; sarabonisteel 3/17/15"}},{"rating":"N/A","number_of_reviews":"N/A","source":"foursquare","foursquare_id":"457ebeaaf964a5203f3f1fe3","menu":{"url":"https://foursquare.com/v/457ebeaaf964a5203f3f1fe3/device_menu"}},{"rating":"N/A","number_of_reviews":"N/A","source":"foursquare","foursquare_id":"457ebeaaf964a5203f3f1fe3","photos":{"photos":[{"url":"https://igx.4sqi.net/img/general/width223/159476_E7juwkd8AW0CE5cvuECrs3ISgFxIXkAzUSH-vFgKBTM.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/37925049_240kJMAJnFpKEXTCvnJIY8nW-lVuNyXkJAfhzu6tl7I.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_eO-DuFs4T59WkcVToQDwxWx80RvlEUQ9d3GU-9TQ_KU.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_tTgTpIFTFn_NLLthct2yGVdhTBq2tRIhowIP3FRNAZU.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_kaaQwt-2tKoxwkp1jCw1nHJxbmVlgKeKt0U-vRCGVBY.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_MRgBZik759WmgQD0v_ibUALK9pW-eB-6W-fMHY80B-0.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/487189_t92LI9rPay4DbAZzA5krkw5xAVSoy-7V7v5JdtTcdHA.jpg"},{"url":"https://igx.4sqi.net/img/general/width223/42124__2MfMKxgxrV8W8ofVrzFpYiBQMZQ9sjQmnZu4HNPeEc.jpg"}]}},{"rating":"N/A","number_of_reviews":"N/A","source":"foursquare","foursquare_id":"457ebeaaf964a5203f3f1fe3","reviews":[{"time":1495135118,"text":"Absolutely exquisite - a meal I never wanted to end! Each course was like a delicious work of art. The milk & honey has to be one of best deserts I've ever had.","photo_url":"https://igx.4sqi.net/img/general/width223/208277245_jYFhxrwikn9KXBWF8t3wSBrzYvpMNg2eD2tKdSZeAkU.jpg"},{"time":1437371303,"text":"Ask for a tour of the kitchen. Everyone is super nice. Sit at the bar for a cheaper a la carte menu instead of paying $225 for the tasting menu in the dining room.","photo_url":"https://igx.4sqi.net/img/general/width223/3011910_dqWDDKqvvUEoFabIuUw1onLTVjl1cTqQp1DvyGkyDp8.jpg"},{"time":1426454117,"text":"One of the best meals I've ever had. The foie gras with pickled cabbage was one of my favs of the night. Looked like cake, tasted like butter.","photo_url":"https://igx.4sqi.net/img/general/width223/6608323_5lGDQ6J9gYwX2yhi0_puub2PyyxVDXuQGx2_mghUJsk.jpg"},{"time":1434463964,"text":"Superb service over a nearly four-hour dining experience. Graciously accommodated gluten-free requests. Great for special occasions.","photo_url":"https://igx.4sqi.net/img/general/width223/41380679_k3uT4NvLO985NJ8SLBe08IWHiW4YeD6L9W8gLyOajd4.jpg"},{"time":1407159789,"text":"Ensconced in a former bank lobby, the restaurant has soaring windows that offer a romantic view of the city's prettiest park.","photo_url":"https://igx.4sqi.net/img/general/width223/1868764_lm7DRwnT8xQa5fQBa8LfcOhGkiQ11Yx4KuvAV6y9LB8.jpg"},{"time":1420310043,"text":"The best restaurant in the world 😋 great tasting menu, the experience, the ambiance, and the service, all are amazing 😍","photo_url":"https://igx.4sqi.net/img/general/width223/6374465_8KnzfIrc4K0YS6S2DwU74zDR4YbOc7bPHjLFAejjHwg.jpg"}]},{"rating":4.5,"number_of_reviews":1678,"source":"yelp","yelp_id":"eleven-madison-park-new-york","reviews":[{"rating":5,"time":"2017-11-03 19:29:07","text":"This restaurant needs no introduction, nor does it need any more amateur food critic wannabes (dream job?) like myself from validating it with our less than..."},{"rating":3,"time":"2017-11-09 10:50:46","text":"Have you ever walked away from a restaurant disappointed and wanting a \"do over meal\" from somewhere that's actually good?  That was me.\n \nMy review is..."},{"rating":4,"time":"2017-11-06 16:33:27","text":"I can't believe I'm giving \"The Best Restaurant in the World\" a 4 star rating. Completely missing the WOW factor you expect as far as food is concerned. And..."}]}]}
+
+
+var restaurant = { "metadata": { "google_id": "ChIJkXQ3_INZwokRcJD47PFAGvQ", "address": "8 Extra Pl, New York, NY 10003, USA", "name": "Momofuku Ko", "phone_number": "(212) 203-8095", "area_near": "8 Extra Place, New York", "description": "Momofuku Ko, Extra Place, New York, NY, United States", "website": "http://ko.momofuku.com/", "location": { "lat": 40.7248211, "lng": -73.99137230000001 } }, "reviews": [{ "rating": 4.6, "number_of_reviews": "N/A", "source": "google", "reviews": [{ "rating": 5, "time": "a month ago", "text": "Amazing experience and some of the best food I've ever had. Never been to a Michelin star restaurant before, but they exceeded all expectations. I was talking with the waitstaff about The Nugget Spot, which they hadn't heard of, but is one of my favorite places in NY... so they made me a chicken nugget using a chicken oyster. It was a lot more relaxed than I would've expected for such a nice restaurant. Great atmosphere, great service. Bar menu is definitely worth doing.\n\nI had never done a tasting menu before, so it was really interesting trying that. Really interesting/unusual food combinations (wild rice and ice cream?) but everything tasted so good. I'm allergic to shellfish, so they did substitute things - like I got a mushroom roll instead of a lobster roll.\n\nWill absolutely go back there next time I'm in NY. If you do the bar menu, keep in mind they only have 6 seats, so it can be a bit difficult to get into - took me about 2 hrs before there was space." }, { "rating": 5, "time": "a month ago", "text": "Wow, just wow. Ko was an absolutely amazing experience. If I could give this 10/5 stars, I would in a heartbeat. The care that was put into each dish was astounding, from the lobster roll to the dry aged meat. This was my first time to a Michelin star’d restaurant, and I have to say, all those other restaurants have a high bar set for them by this place. The drink pairing surpassed all expectations, and complemented each dish wonderfully. Sean and his crew are doing amazing things here, come here and live this special place, I promise that you won’t be disappointed. Also, these people are bread wizards - we couldn’t get enough!" }, { "rating": 5, "time": "in the last week", "text": "Delightfully creative; superb quality; engaging staff; relaxing atmosphere." }, { "rating": 5, "time": "3 weeks ago", "text": "Great food and service. It kinda freaked me out because of the Korean ingredients and my growing up eating traditional Korean food." }, { "rating": 5, "time": "4 weeks ago", "text": "Save up, go, sit at the counter. The best restaurant experience I have had." }] }, { "rating": 4.5, "number_of_reviews": 194, "source": "yelp", "yelp_id": "momofuku-ko-new-york-3", "reviews": [{ "rating": 5, "time": "2017-11-03 19:31:43", "text": "For our wedding anniversary dinner this year, we decided to switch it up from Blue Hill and try out something different this time. We ended up settling on..." }, { "rating": 3, "time": "2017-10-16 18:34:18", "text": "Hmm it's a mixed feeling of Momofuku today. We had some very delicious dish, but many were very mediocre, and some were even weird.. Maybe it's because our..." }, { "rating": 4, "time": "2017-09-30 19:27:27", "text": "Located in a sneaky alleyway off of E 1st Street, I was finally able to snag a coveted seat to try the 11-course pre-fixe weekend brunch menu at around..." }] }, { "rating": "4.0", "number_of_reviews": "287", "source": "zomato", "zomato_id": "16772773", "reviews": [{ "rating": 4, "time": "15 days ago", "text": "Taste wise, Momofuku Ko is my favorite restaurant in NYC. It would still be my favorite restaurant overall, but the rise in prices over the ..." }, { "rating": 5, "time": "29 days ago", "text": "Some things we loved: The fluke sashimi (paired amazingly with the yuzu salt), Sea Urchin with chickpea hozon and a douse of olive oil (this..." }, { "rating": 4, "time": "4 months ago", "text": "À chaque année, je regarde la liste des top 100 restos au monde et je me demande ce que je peux essayer comme cuisine en voyage. Cette ann..." }, { "rating": 4, "time": "6 months ago", "text": "The uni and blue steak were highlights... Some kind of salty and spice with the lovely uni textures, and the steak was smokey salty and pepp..." }, { "rating": 4, "time": "6 months ago", "text": "Had dinner there last friday. Really fantastic dinner. I ate here with friends. We are drinking group. In addition to the real fantastic foo..." }] }, { "rating": 4.7, "number_of_reviews": 359, "source": "facebook", "facebook_id": "130389693707888", "reviews": [] }, { "source": "instagram", "instagram_id": "130389693707888", "reviews": [], "photos": { "url": "https://www.instagram.com/explore/locations/130389693707888/" } }, { "rating": "4.5", "number_of_reviews": "336", "source": "www.tripadvisor.com", "id": 0, "reviews": [] }, { "rating": "locations", "number_of_reviews": "N/A", "source": "www.booking.com", "id": 0, "reviews": [] }, { "rating": "4.8", "source": "www.opentable.com", "id": 0, "reviews": [] }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "New York Times", "zomato_id": 0, "reviews": [], "review_article": { "url": "http://www.nytimes.com/2015/10/14/dining/restaurant-review-momofuku-ko-east-village.html", "summary": "David Chang&rsquo;s original Momofuku Ko was a daring experiment that asked: If you aspired to serve food as original and refined as anything in an expensive uptown restaurant but wanted to keep prices down, exactly how many amenities could you strip out? The answer turned out to be &ldquo;Not quite that many, Dave,” but the question was the right one at the right time. With Ko&rsquo;s move to a larger space a few blocks south, that experiment officially ended. The new Ko has amenities galore and a price to match. There is a high degree of finesse in executive chef Sean Gray&rsquo;s $175 tasting menus, much more comfort for cooks and diners alike, and wine in uncannily delicate glasses from some of the world&rsquo;s most revered grape stompers. The restaurant is not an experiment, but rather a statement of what fancy dining has become, in large part due to the influence of the original. ", "by": "Confirmed 10/27/10, TG Confirmed 7/12/11 -EL; listened to recorded message; confirmed 4/4/12 - EL; \nupdated to reflect address 6/18/12; confirmed open via website  1/23/13 - EL;  confirmed open via website  2/12/14 - EL; sara bonisteel 10/13/15" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "foursquare", "foursquare_id": "546baf30498edfac406853ee", "menu": { "url": "https://foursquare.com/v/546baf30498edfac406853ee/device_menu" } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "foursquare", "foursquare_id": "546baf30498edfac406853ee", "photos": { "photos": [{ "url": "https://igx.4sqi.net/img/general/width223/10141_V0kGCzonECz1NHEy6cxzbfUbscdKzE273UD1WW5qRqI.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_OVFIhp1KM8-k1oxFw542Of516P1e2-cHLt3ZNFFNKGA.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_0hEtZIDYQL02RDOqCwlrvxcgeZiijI2Y12B92jZ-Qu8.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_xdGMbs0tXYrMhDGk4kjzMB-wF_GFu2pr3jHFSCO2HnU.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_bRfvhryKKPq0vaz9eacbSBGqBoO0M9-LcnQbXUsCoJQ.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_D9su9GvbqyXWQmq59HN1Xy7gbBzNmNtFTvSJ9O9APZI.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_aX_G1P5Td4rDQ-ryEnBaepIDW3MseP44C7R_WBv_kLc.jpg" }, { "url": "https://igx.4sqi.net/img/general/width223/13411170_Ef-lkHjXPIbjiPsiV8ky7785zwRHcnFCT_2Ybm8_CsE.jpg" }] } }, { "rating": "N/A", "number_of_reviews": "N/A", "source": "foursquare", "foursquare_id": "546baf30498edfac406853ee", "reviews": [{ "time": 1437889026, "text": "An amazing dining experience. Beautiful plates. Sitting around the kitchen watching everything & interacting with the chefs made everything even better.  Great wine list. Attentive staff.", "photo_url": "https://igx.4sqi.net/img/general/width223/824218_eFIsWsA6ssncnTSeMZJEnsfEmGro1EiTQsqgZnbNq3U.jpg" }, { "time": 1426983779, "text": "As delicious as it is expensive. Expect 15–20 courses that will leave you very full. Less Asian-influenced than Ssam and Noodle Bars.", "photo_url": "https://igx.4sqi.net/img/general/width223/20546_OaJaR17K3B6kDaXp-HSYrGmsGX64Bbzn4P1k278xyG4.jpg" }, { "time": 1460408447, "text": "Amazing flavor, incredible experience. The uni is to die for, as is the duck pie. Take the night's menu with you as a souvenir :)", "photo_url": "https://igx.4sqi.net/img/general/width223/85980443_qsIi_KLyUAfN6UKYVedLN2TuZEdc5Nx1dOszgpAknpw.jpg" }, { "time": 1431380725, "text": "\"Chang has taught us at once how to take food more seriously and consume it more casually.\"", "photo_url": "https://igx.4sqi.net/img/general/width223/2611536_OPDT9Jen6CjHVUieF2X3QTYLW2EQltne71FvIWNc4U8.jpg" }, { "time": 1429065310, "text": "It worth the money. Mackerel pressed sushi is my fav.", "photo_url": "https://igx.4sqi.net/img/general/width223/65876796_G1bD9WLht8RYt0YgvHj_D0V78oeau0FQv_oVXEMNZeE.jpg" }, { "time": 1499981413, "text": "A well worth 2 Michelin Stars.", "photo_url": "https://igx.4sqi.net/img/general/width223/339105_2orELm_K17A8xpF01jCKC8ONXGEu9-1PRR1Sd3JJK6w.jpg" }] }] }

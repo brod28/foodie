@@ -61,7 +61,7 @@ module.exports = {
                 client_id: 'A32K1QWL1TY4TTFSSQHQHSGWC0LC3QY5MGLDT5ZYFHPWFIDT',
                 client_secret: '5HKEFHMEXLRDORXJ0AJEI31UZURUQN3ADTXREZE3FIH13MLT',
                 group: "venue",
-                limit: 8
+                limit: 9
             }
         }, function (err, res, body) {
             if (err) {

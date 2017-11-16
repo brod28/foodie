@@ -19,9 +19,7 @@ class PhotoGallery extends Component {
         return (
             <div id="photos_photo_ancor" className="photos_photo">
               {this.state.photos.map(photo=> 
-                <div>
                     <img src={photo.url} />
-                </div>
               )}
             </div>
           

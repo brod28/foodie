@@ -21,7 +21,6 @@ class App extends Component {
       
       <Router>
         <div className="App">
-        
           <Route path="/search/:name" render={({ match }) => (
             <SearchResult name={match.params.name}>
             </SearchResult>
