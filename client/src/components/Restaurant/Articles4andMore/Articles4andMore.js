@@ -4,6 +4,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import VendorLogo from '../../Helpers/VendorLogo'
 import HeaderForPopup from '../../Header/HeaderForPopup'
 
 class Articles4andMore extends Component {
@@ -41,22 +42,28 @@ class Articles4andMore extends Component {
     return (
       <div className={fullClass}>
       <div id="articles_ancor" className="articles_4_and_more">
-        {this.state.review_article.map(article =>
-          <div className="articles_4">
-            <div>
-              {article.review_article.summary.substring(0, 202) + "   ..."}
-            </div>
-            <div>
-              <strong>article by {article.source}</strong>
-            </div>
-            <p>
-              <a href={article.review_article.url} target="_blank">
-                read the article
-                </a>
 
+      
+        {this.state.review_article.map(article =>
+        
+        <div className="articles_4">
+          <ul>
+            <il>
+              {article.review_article.summary.substring(0, 202) + "   ..."}
+            </il>
+            <il className="logo">
+              <VendorLogo source={article.source}/>
+              <p>
+              <a href={article.review_article.url} target="_blank">
+                click here to read the article
+              </a>
+              </p>
+            </il>
+          </ul>
+            <p>
 
             </p>
-          </div>
+            </div>
         )}
         {this.state.number_of_more > 0 ?
           <div className="and_more">

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Reviews from '../Reviews/Reviews'
 import HeaderForPopup from '../../Header/HeaderForPopup'
+import RatingFiveStars from '../../Helpers/RatingFiveStars'
+import VendorLogo from '../../Helpers/VendorLogo'
 
 import {
   BrowserRouter as Router,
@@ -9,29 +11,41 @@ import {
 } from 'react-router-dom'
 
 class Reviews4andMore extends Component {
-
+  number_of_times=2;
+  offset=0;
   constructor(props) {
     super(props);
 
     this.state = {
-      number_of_more: this.props.reviews.length - 4,
-      reviews: this.props.reviews.slice(0, 4),
+      number_of_more: this.props.reviews.length ,
+      reviews: this.props.reviews.slice(this.offset, this.number_of_times),
       andmore: false
     }
   }
   render() {
     let _this = this;
+    let rotate= () => {
+      _this.offset=_this.offset+2;
+      if(_this.offset>=_this.props.reviews.length){
+        _this.offset=0;
+      }
+      _this.setState({
+        number_of_more: _this.props.reviews.length ,
+        reviews: _this.props.reviews.slice(_this.offset, _this.number_of_times+_this.offset),
+        andmore: false
+      });
+    }
     let add_more = () => {
       _this.setState({
-        number_of_more: this.props.reviews.length - 4,
-        reviews: this.props.reviews,
+        number_of_more: _this.props.reviews.length ,
+        reviews: _this.props.reviews,
         andmore: true
       });
     }
     let remove_more = () => {
       _this.setState({
-        number_of_more: this.props.reviews.length - 4,
-        reviews: this.props.reviews.slice(0, 4),
+        number_of_more: _this.props.reviews.length ,
+        reviews: _this.props.reviews.slice(_this.offset, _this.number_of_times+_this.offset),
         andmore: false
       });
     }
@@ -46,19 +60,22 @@ class Reviews4andMore extends Component {
           <div>
             <ul className="reviews_per_platfrom">
               <li>
-                <StarsForReview number_of_stars={review.rating} />
+                <RatingFiveStars number_of_stars={review.rating} />
               </li>
               <li>
-                <img src={require('../../../images/logos/'+review.source.replace('www.','').replace('.com','')+'_logo.png')} />
+                <VendorLogo source={review.source}/>
               </li>
               </ul>
               <div>
                 {review.reviews.length > 0 ?
                   (<Link to={window.location.pathname + '/read_reviews/' + review.inner_id}>
-                    read the reviews
+                    read reviews
+                    {review.reviews[0].photo_url?'(with photos!!!!)':''}
                   </Link>)
                   :
-                  ('')}
+                  (<div>
+                     reading reviews is impossible
+                  </div>)}
               </div>
               </div>
           )}
@@ -67,8 +84,8 @@ class Reviews4andMore extends Component {
               {!this.state.andmore ?
 
                 <p>
-                  <div className="clickable" onClick={add_more}>
-                    <strong> another {this.state.number_of_more} ratings  >>> </strong>
+                  <div  onClick={rotate}>
+                    <strong> total {this.state.number_of_more} ratings,<span className="clickable"> click to see other >>> </span> </strong>
                   </div>
                 </p>
                 :
@@ -92,42 +109,6 @@ class Reviews4andMore extends Component {
 }
 export default Reviews4andMore;
 
-class StarsForReview extends Component {
-  constructor(props) {
-    super(props);
 
-    let number_of_stars;
-    try{
-      number_of_stars = parseFloat(this.props.number_of_stars) + 0.5
-    }
-    catch(e){
-      console.log(e.message + e.stack) 
-    }
-    
-    this.state = {
-      number_of_stars: number_of_stars
-    }
-  }
-  render() {
-    let starts = [];
-    if(this.state.number_of_stars){
-      for (let i = 1; i < 6; i++) {
-        starts.push(this.state.number_of_stars >= i ?
-          <img src={require('../../../images/star.svg')} />
-          :
-          <img src={require('../../../images/star_empty.svg')} />);
-      }
-    }
-    else{
-      starts.push(
-        <img src={require('../../../images/no_rating.png')} />);      
-    }
-    return (
-    <div class="review_stars">
-      {starts.map(star =>
-        star
-      )}
-    </div>)
 
-  }
-}
+

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+import VendorLogo from '../../Helpers/VendorLogo'
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
+
 
 class PhotoLinks extends Component {
   
@@ -21,7 +22,7 @@ class PhotoLinks extends Component {
               {this.state.photos.map(photo=> 
                 <div>
                     <a href={photo.photos.url} target="_blank">
-                        click here to watch photos on {photo.source}
+                        more photos on <VendorLogo source={photo.source}/>
                     </a>
                 </div>
               

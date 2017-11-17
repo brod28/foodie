@@ -5,6 +5,7 @@ import {
     Link
 } from 'react-router-dom'
 import HeaderForPopup from '../../Header/HeaderForPopup'
+import VendorLogo from '../../Helpers/VendorLogo'
 
 class Menus extends Component {
     constructor(props) {
@@ -22,8 +23,13 @@ class Menus extends Component {
                 <div id="menus_ancor" className="menus">
                     {this.state.menus.map(menu =>
                         <div>
+
                             <a href={menu.menu.url} target="_blank">
-                                click here to see the menu on {menu.source}
+                                click here to explore 
+                                <img  className="menu-icon" src={require('../../../images/menu-icon.png')} />
+                                by
+                                <VendorLogo source={menu.source}/>
+
                             </a>
                         </div>
 

@@ -48,13 +48,20 @@ body {
 }
 
 .reviews_per_platfrom .review_stars img{
-  width: 20%;
-  max-width: 40px;
+  width: 20px;
 }
 .reviews_per_platfrom img{
-  width: 100%;
+  max-width: 100%;
   max-width: 200px;
 }
+.reviews_per_platfrom .review_stars{
+  float: right;
+  margin-bottom: 10px;
+}
+.reviews_per_platfrom .vendor_logo{
+  float: left;
+}
+
 
 .reviews_per_platfrom li{
   display: inline-block;
@@ -62,11 +69,29 @@ body {
   max-width: 400px;
 }
 
-.photos_and_more div{
-  display: inline-block;
-  max-width:400px ;
+
+
+.menu-icon{
+  width:30px;  
 }
-  
-.photos_and_more img{
-  width:33%;
+
+.menus .vendor_logo,.articles_4 .vendor_logo{
+  height: 40px;
+}
+
+.photos_links .vendor_logo{
+  height: 20px;
+  width: 20px;
+}
+
+
+.articles_4 il{
+  display: inline-block;
+}
+.articles_4 il{
+  width: 80%;
+}
+
+.articles_4 il.logo{
+  width: 20%;
 }

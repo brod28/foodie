@@ -98,7 +98,7 @@ module.exports = {
             let photos = [];
             json_photos.response.photos.items.forEach((photo) => {
                 photos.push({
-                    url: photo.prefix + 'width223' + photo.suffix
+                    url: photo.prefix + 'height250' + photo.suffix
                 });
             })
         
@@ -126,7 +126,7 @@ module.exports = {
                     let review = {
                         time: tip.createdAt,
                         text: tip.text,
-                        photo_url: tip.photo?tip.photo.prefix + 'width223' + tip.photo.suffix:undefined
+                        photo_url: tip.photo?tip.photo.prefix + 'height250' + tip.photo.suffix:undefined
                     };
                     reviews.push(review);
                 }

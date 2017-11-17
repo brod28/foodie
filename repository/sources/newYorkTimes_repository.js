@@ -27,7 +27,7 @@ module.exports = {
             retval = {
                 rating: 'N/A',
                 number_of_reviews: 'N/A',
-                source: 'New York Times',
+                source: 'newyorktimes',
                 zomato_id: 0,
                 reviews: [],
                 review_article: {
