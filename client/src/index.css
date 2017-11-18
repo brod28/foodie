@@ -95,3 +95,14 @@ body {
 .articles_4 il.logo{
   width: 20%;
 }
+
+#section1{
+  margin-top: 54px;
+}
+
+
+@media (max-width : 768px) {
+  .navbar.navbar-inverse.navbar-fixed-top {
+      display: none;
+  }
+}

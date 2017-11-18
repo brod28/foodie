@@ -8,8 +8,17 @@ class VendorLogo extends Component {
     }
   }
   render() {
+    let logo=<p>{this.props.source}</p>
+    try{
+      let logo_name=this.props.source.replace('www.','').replace('.com','').replace(' ','_').toLowerCase();
+      logo=<img className="vendor_logo" src={require('../../images/logos/'+logo_name+'_logo.png')} />      
+    }
+    catch(e){
+      console.log('logo for '+this.props.source+ ' is broken' + e.message);
+    }
+
     return (
-      <img className="vendor_logo" src={require('../../images/logos/'+this.props.source.replace('www.','').replace('.com','')+'_logo.png')} />
+      logo
     )
   }
 }  

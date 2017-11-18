@@ -24,7 +24,7 @@ module.exports = {
                 }
             });
             while(source === undefined) {
-                require('deasync').sleep(500);
+                require('deasync').sleep(1000);
             }
             return source;
         },
@@ -44,7 +44,7 @@ module.exports = {
                 }
             });
             while(source === undefined) {
-                require('deasync').runLoopOnce();
+                require('deasync').sleep(1000);
             }
             return source;
         }

@@ -25,7 +25,8 @@ class Restaurant extends Component {
   componentDidMount() {
     ///*
     fetch('/api/reviews?name=' + this.props.name)
-      .then(res => res.json())
+      .then(res => 
+        res.json())
       .then(restaurant => {
         this.setState(this.getStateObject(restaurant));
       });
@@ -88,7 +89,26 @@ class Restaurant extends Component {
   render() {
     let restaurantName = <p>Loading restaurant information... </p>;
     if (this.state.restaurant.metadata) {
-      restaurantName = <HeaderForPopup name={this.state.restaurant.metadata.name} url={this.state.restaurant.metadata.website} />;
+      restaurantName = 
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+      {this.state.restaurant.metadata.name}
+      <ul class="nav navbar-nav">
+        <li><a href="#section1">Reviews</a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="#section2">Articles</a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="#section3">Photos</a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="#section4">Menu</a></li>
+      </ul>
+    </nav>
+      
+      
+      
+    //  <HeaderForPopup name={this.state.restaurant.metadata.name} url={this.state.restaurant.metadata.website} />;
     }
     let reviews4andMore = <p>Loading reviews... </p>;
     if (this.state.reviews) {
@@ -113,18 +133,27 @@ class Restaurant extends Component {
     return (
       <div className="popup">
         <div className="restaurant">
-          {restaurantName}
+            {restaurantName}
           <Route path="/restaurant/:name" render={({ match }) => (
-            reviews4andMore
+            <div id="section1">
+              {reviews4andMore}
+            </div>
           )} />
           <Route path="/restaurant/:name" render={({ match }) => (
-            articles4andMore
+            <div id="section2">
+            {articles4andMore}
+            </div>
           )} />
           <Route path="/restaurant/:name" render={({ match }) => (
-            photosandMore
+            <div id="section3">
+                {photosandMore}
+            </div>
           )} />
           <Route path="/restaurant/:name" render={({ match }) => (
-            menus
+            <div id="section4">
+            {menus}
+          </div>
+          
           )} />
 
         </div>

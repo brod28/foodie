@@ -10,7 +10,7 @@ const foursquare_repository = require('./sources/foursquare_repository');
 const rest_repository = require('./sources/rest_repository');
 const facebook_instagram_repository = require('./sources/facebook_instagram_repository');
 const google_repository = require('./sources/google_repository');
-
+const tripexpert_repository = require('./sources/tripexpert_repository');
 
 module.exports = {
     get_reviews(request) {
@@ -59,7 +59,7 @@ module.exports = {
                     }
                     console.log("end yelp");
                     resolve('Success!');
-                }, 15)
+                }, 100)
             }));
 
             // get  zomato reviews
@@ -75,7 +75,7 @@ module.exports = {
                     }
                     resolve('Success!');
                     console.log("end zomato");
-                }, 15)
+                }, 100)
             }));
 
             // get facebook/instagram reviews
@@ -89,9 +89,9 @@ module.exports = {
                     catch (e) {
                         console.log("facebook for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
-                    console.log("done facebook");
+                    console.log("end facebook");
                     resolve('Success!');
-                }, 15)
+                }, 150)
             }));
 
             promises.push(new Promise(function (resolve, reject) {
@@ -106,10 +106,25 @@ module.exports = {
                     }
                     console.log("end rest");
                     resolve('Success!');
-                }, 15)
+                }, 80)
+            }));
+            
+            promises.push(new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    console.log("start tripexpert");
+                    try {
+                        let tripexport_review = tripexpert_repository.get_tripexpert(GoogleLocationInformation.metadata)
+                        retVal.reviews = retVal.reviews.concat(tripexport_review);
+                    }
+                    catch (e) {
+                        console.log("tripexpert for " + request.name + "reviews did work error:" + e.message + e.stack)
+                    }
+                    console.log("end tripexpert");
+                    resolve('Success!');
+                }, 123)
             }));
 
-            promises.push(new Promise(function (resolve, reject) {
+          /*  promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     console.log("start NYC");
                     try {
@@ -123,8 +138,8 @@ module.exports = {
                     }
                     resolve('Success!');
                     console.log("end NYC");
-                }, 15)
-            }));
+                }, 150)
+            }));*/
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
@@ -138,7 +153,7 @@ module.exports = {
                     }
                     resolve('Success!');
                     console.log("end foursquare");
-                }, 15)
+                }, 151)
             }));
 
 
@@ -148,7 +163,7 @@ module.exports = {
             })
 
             while (!IsPromisesDone) {
-                require('deasync').sleep(250);
+                require('deasync').sleep(1000);
             }
 
             console.log('end  get data ' + new Date().getSeconds());
