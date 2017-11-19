@@ -21,11 +21,12 @@ module.exports = {
 
         let venue_id;
         let stringSimilarity = require('string-similarity');
+        let old_similarity=0.31;
         venues.forEach(element => {
             let similarity = stringSimilarity.compareTwoStrings(element.name, metadata.name);
-            if (similarity > 0.28) {
+            if (similarity > old_similarity) {
                 venue_id = element.id;
-                return;
+                old_similarity=similarity;
             }
         })
 
