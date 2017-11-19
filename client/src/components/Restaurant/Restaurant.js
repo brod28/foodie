@@ -5,7 +5,7 @@ import PhotosandMore from './PhotosandMore/PhotosandMore'
 import Reviews from './Reviews/Reviews'
 import HeaderForPopup from '../Header/HeaderForPopup'
 import Menus from './Menus/Menus'
-
+import CountDown from '../Helpers/CountDown'
 import {
   BrowserRouter as Router,
   Route,
@@ -87,7 +87,7 @@ class Restaurant extends Component {
 
 
   render() {
-    let restaurantName = <p>Loading restaurant information... </p>;
+    let restaurantName = <div><p>Loading restaurant information... </p><CountDown/></div>;
     if (this.state.restaurant.metadata) {
       restaurantName = 
       <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -110,7 +110,7 @@ class Restaurant extends Component {
       
     //  <HeaderForPopup name={this.state.restaurant.metadata.name} url={this.state.restaurant.metadata.website} />;
     }
-    let reviews4andMore = <p>Loading reviews... </p>;
+    let reviews4andMore =   <p>Loading reviews... </p>
     if (this.state.reviews) {
 
       reviews4andMore = <Reviews4andMore reviews={this.state.reviews} />
