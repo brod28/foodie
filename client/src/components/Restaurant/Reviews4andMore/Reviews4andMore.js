@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom'
 
 class Reviews4andMore extends Component {
-  number_of_times=2;
+  number_of_times=3;
   offset=0;
   constructor(props) {
     super(props);
@@ -57,7 +57,7 @@ class Reviews4andMore extends Component {
       <div className={fullClass}>
         <div id="reviews_ancor" className="reviews_4_and_more">
           {this.state.reviews.map(review =>
-          <div>
+          <div className="review">
             <ul className="reviews_per_platfrom">
               <li>
                 <RatingFiveStars number_of_stars={review.rating} />

@@ -54,9 +54,13 @@ class Articles4andMore extends Component {
             <il className="logo">
               <VendorLogo source={article.source}/>
               <p>
+              {article.review_article.url?
               <a href={article.review_article.url} target="_blank">
                 click here to read the article
               </a>
+              :
+                ''
+                }
               </p>
             </il>
           </ul>
