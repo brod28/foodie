@@ -91,7 +91,7 @@ module.exports = {
                         menu_url = json.response.venues[0].menu.externalUrl;
                     }
                     catch (e) {
-                        console.log("failed to get menu from foursquare")
+                        console.log("failed to get menu from foursquare for "+metadata.name)
                     }
                 }
             }

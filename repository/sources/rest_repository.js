@@ -20,7 +20,7 @@ module.exports = {
             console.log("search 1 failed google error " + e.message + e.stack);
             throw e;
         }
-    
+
         try {
             //google search 2
             let request_get = {
@@ -28,13 +28,13 @@ module.exports = {
             };
             let response = context_common.http.request_get(request_get);
             google_search_result.items = google_search_result.items.concat(JSON.parse(response).items);
-    
+
         }
         catch (e) {
             console.log("search 2 failed google error " + e.message + e.stack);
             throw e;
         }
-    
+
         // in case one of the values is NOT int throw exception 
         let retVal = [];
         let includes = [];
@@ -45,20 +45,7 @@ module.exports = {
                     && !includes.includes(element.displayLink)) {
                     let rating;
                     let number_of_reviews = "N/A";
-                    try {
-                        rating = element.snippet.split('rated ')[1].split(' ')[0];
-                        number_of_reviews = element.snippet.split('See ')[1].split(' ')[0];
-                        if (!context_common.helper.isFloat(rating)) {
-                            rating = undefined;
-                        }
-                        if (!context_common.helper.isFloat(number_of_reviews)) {
-                            number_of_reviews = "N/A";
-                        }
-                    }
-                    catch (e) {
-                        console.log("rest htmlSnippet parse rating failed for " + element.displayLink)
-                    }
-    
+                    let reviews = [];
                     if (element.pagemap) {
                         if (element.pagemap.aggregaterating) {
                             if (element.pagemap.aggregaterating[0]) {
@@ -66,27 +53,70 @@ module.exports = {
                                 number_of_reviews = element.pagemap.aggregaterating[0].ratingcount;
                             }
                         }
+                        if (element.pagemap.review) {
+                            try {
+                                element.pagemap.review.forEach(function (element_review) {
+                                    if (element_review.reviewbody != '' && element_review.reviewbody) {
+                                        let review = {
+                                            rating: undefined,
+                                            time: element_review.datepublished,
+                                            text: element_review.reviewbody
+                                        };
+                                        reviews.push(review);
+                                    }
+                                });
+                            }
+                            catch (e) {
+                                console.log('could parse google search review object ' + e.message + e.stack)
+                            }
+                        }
+
                     }
-                    if (rating) {
+                    if (!rating) {
+                        try {
+                            rating = element.snippet.split('rated ')[1].split(' ')[0];
+                            if (!context_common.helper.isFloat(rating)) {
+                                rating = undefined;
+                            }
+                        }
+                        catch (e) {
+                            console.log("rest htmlSnippet parse rating failed for " + element.displayLink)
+                        }
+                    }
+
+                    if (number_of_reviews == "N/A") {
+                        try {
+                            number_of_reviews = element.snippet.split('See ')[1].split(' ')[0];
+                            if (!context_common.helper.isFloat(number_of_reviews)) {
+                                number_of_reviews = "N/A";
+                            }
+                        }
+                        catch (e) {
+                            console.log("rest htmlSnippet parse rating failed for " + element.displayLink)
+                        }
+                    }
+
+                    if (rating || reviews.length > 0) {
                         includes.push(element.displayLink);
                         let obj = {
                             rating: rating,
                             number_of_reviews: number_of_reviews,
                             source: element.displayLink,
                             id: 0,
-                            reviews: [],
+                            reviews: reviews,
                             review_article: undefined
                         }
                         retVal.push(obj);
                     }
                 }
             }
+
             catch (e) {
                 console.log("rest parse rating failed for " + element.displayLink)
             }
-    
+
         })
         return retVal;
     }
-      
+
 }
