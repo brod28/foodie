@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class CountDown extends Component {
     constructor() {
       super();
-      this.state = { time: {}, seconds: 10 };
+      this.state = { time: {}, seconds: 15 };
       this.timer = 0;
       this.startTimer = this.startTimer.bind(this);
       this.countDown = this.countDown.bind(this);
@@ -43,15 +43,19 @@ class CountDown extends Component {
     countDown() {
       // Remove one second, set state so a re-render happens.
       let seconds = this.state.seconds - 1;
+      let missed_once=this.state.missed_once;
+      // Check if we're at zero.
+      if (seconds == 0) { 
+        seconds=seconds+10;
+        missed_once=true;
+      }
+
       this.setState({
         time: this.secondsToTime(seconds),
         seconds: seconds,
+        missed_once:missed_once
       });
       
-      // Check if we're at zero.
-      if (seconds == -5) { 
-        clearInterval(this.timer);
-      }
     }
   
     render() {
@@ -61,7 +65,7 @@ class CountDown extends Component {
             Loading results in {this.state.time.s} seconds
         </p>
         <p>
-            {this.state.time.s>1?'':' ( sorry, it takes longer than expected by few seconds :) )' } 
+            {this.state.missed_once==true?' ( sorry, it takes longer than expected by 10 seconds :) )':'' } 
         </p>
         </div>
       );
