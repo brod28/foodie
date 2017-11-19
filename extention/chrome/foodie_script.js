@@ -16,7 +16,7 @@ var help_me=function(){
     if(iframe==undefined){
         iframe= document.createElement ("iframe");
         iframe.setAttribute("id", "foodie_to_foodie_iframe");
-        iframe.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:500px;overflow: auto; z-index: 2147483646;background-color:whitesmoke;");
+        iframe.setAttribute("style", "width:20%;position: fixed;top: 0px;left: 80%;height:100%;overflow: auto; z-index: 2147483646;background-color:whitesmoke;");
         console.log('foodies selected '+getSelectionText());
         document.body.insertBefore (iframe, document.body.firstChild);  
     }

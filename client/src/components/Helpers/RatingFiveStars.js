@@ -8,7 +8,7 @@ class RatingFiveStars extends Component {
     render() {
         let number_of_stars;
         try{
-          number_of_stars = parseFloat(this.props.number_of_stars) + 0.5
+          number_of_stars = parseFloat(this.props.number_of_stars) +0.301
         }
         catch(e){
           console.log(e.message + e.stack) 
@@ -20,7 +20,12 @@ class RatingFiveStars extends Component {
           starts.push(number_of_stars >= i ?
             <img src={require('../../images/star.svg')} />
             :
-            <img src={require('../../images/star_empty.svg')} />);
+            (          
+              number_of_stars +0.5>=i ?
+              <img src={require('../../images/star_half.png')} />
+              :
+            <img src={require('../../images/star_empty.svg')} />
+              ))
         }
       }
       else{
