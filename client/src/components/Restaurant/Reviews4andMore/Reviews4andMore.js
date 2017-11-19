@@ -60,7 +60,8 @@ class Reviews4andMore extends Component {
           <div className="review">
             <ul className="reviews_per_platfrom">
               <li>
-                <RatingFiveStars number_of_stars={review.rating} />
+                <RatingFiveStars number_of_stars={review.rating} number_of_reviews={review.number_of_reviews} />
+                
               </li>
               <li>
                 <VendorLogo source={review.source}/>

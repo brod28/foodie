@@ -61,7 +61,7 @@ body {
   max-width: 100%;
   max-width: 200px;
 }
-.reviews_per_platfrom .review_stars{
+.reviews_per_platfrom .review_stars.number_reviews_not{
   float: right;
   margin-bottom: 10px;
 }

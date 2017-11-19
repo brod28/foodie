@@ -7,8 +7,15 @@ class RatingFiveStars extends Component {
     }
     render() {
         let number_of_stars;
+        let number_of_reviews;
         try{
           number_of_stars = parseFloat(this.props.number_of_stars) +0.301
+        }
+        catch(e){
+          console.log(e.message + e.stack) 
+        }
+        try{
+          number_of_reviews = parseInt(this.props.number_of_reviews) 
         }
         catch(e){
           console.log(e.message + e.stack) 
@@ -33,10 +40,17 @@ class RatingFiveStars extends Component {
           <img src={require('../../images/no_rating.png')} />);      
       }
       return (
-      <div class="review_stars">
+      <div className={"review_stars "+(!number_of_reviews?'number_reviews_not':'')}>
         {starts.map(star =>
           star
         )}
+        {!number_of_reviews?
+                ''
+                :
+                <p>
+                  based on {number_of_reviews} reviews 
+                </p>
+                }
       </div>)
   
     }
