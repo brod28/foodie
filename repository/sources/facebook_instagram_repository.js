@@ -64,7 +64,8 @@ module.exports = {
             reviews: [],
             review_article: undefined,
             photos: {
-                url: 'https://www.instagram.com/explore/locations/' + facebook_id + '/'
+                url: 'https://www.instagram.com/explore/locations/' + facebook_id + '/',
+                text:'foto by guests on'
             }
         })
         return retval;

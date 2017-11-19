@@ -25,7 +25,7 @@ class Reviews4andMore extends Component {
   render() {
     let _this = this;
     let rotate= () => {
-      _this.offset=_this.offset+2;
+      _this.offset=_this.offset+this.number_of_times;
       if(_this.offset>=_this.props.reviews.length){
         _this.offset=0;
       }

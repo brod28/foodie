@@ -22,7 +22,7 @@ class PhotoLinks extends Component {
               {this.state.photos.map(photo=> 
                 <div>
                     <a href={photo.photos.url} target="_blank">
-                        more photos on <VendorLogo source={photo.source}/>
+                      {photo.photos.text} <VendorLogo source={photo.source}/>
                     </a>
                 </div>
               

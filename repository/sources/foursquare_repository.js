@@ -26,12 +26,12 @@ module.exports = {
                 json = JSON.parse(body);
             }
         });
-    
+
         while (!json) {
             require('deasync').sleep(250);
         }
-    
-    
+
+
         let foursquare_id = json.response.venues[0].id;;
         let json_photos;
         let json_tips;
@@ -52,7 +52,7 @@ module.exports = {
                 json_photos = JSON.parse(body);
             }
         });
-    
+
         request({
             url: 'https://api.foursquare.com/v2/venues/' + foursquare_id + '/tips',
             method: 'GET',
@@ -70,30 +70,50 @@ module.exports = {
                 json_tips = JSON.parse(body);
             }
         });
-    
-    
+
+
         while (!json_photos || !json_tips) {
             require('deasync').sleep(250);
         }
-    
-    
+
         let retval = []
         try {
+            let menu_url = ''
+            try {
+                menu_url = json.response.venues[0].menu.mobileUrl;
+            }
+            catch (e) {
+                try {
+                    console.log("failed to get mobile menu foursquare" + e.message + e.stack)
+                    menu_url = json.response.venues[0].menu.url;
+                }
+                catch (e) {
+                    try {
+                        console.log("failed to get normal menu foursquare" + e.message + e.stack)
+                        menu_url = json.response.venues[0].menu.externalUrl;
+                    }
+                    catch (e) {
+                        console.log("failed to get eternal link menu foursquare" + e.message + e.stack)
+                        throw e;
+                    }
+                }
+            }
+
             retval.push({
                 rating: 'N/A',
                 number_of_reviews: 'N/A',
                 source: 'foursquare',
                 foursquare_id: foursquare_id,
                 menu: {
-                    url: json.response.venues[0].menu.mobileUrl
+                    url: menu_url
                 }
             });
         }
         catch (e) {
             console.log("failed parse menu foursquare" + e.message + e.stack)
         }
-    
-    
+
+
         try {
             let photos = [];
             json_photos.response.photos.items.forEach((photo) => {
@@ -101,7 +121,7 @@ module.exports = {
                     url: photo.prefix + 'height250' + photo.suffix
                 });
             })
-        
+
             retval.push({
                 rating: 'N/A',
                 number_of_reviews: 'N/A',
@@ -115,23 +135,23 @@ module.exports = {
         catch (e) {
             console.log("failed parse photos foursquare" + e.message + e.stack)
         }
-    
-    
+
+
         try {
             let reviews = [];
-            let reviews_counter=0;
+            let reviews_counter = 0;
             json_tips.response.tips.items.slice(5).forEach((tip) => {
-                if(tip.photo && reviews_counter<6){
+                if (tip.photo && reviews_counter < 6) {
                     reviews_counter++;
                     let review = {
                         time: tip.createdAt,
                         text: tip.text,
-                        photo_url: tip.photo?tip.photo.prefix + 'height250' + tip.photo.suffix:undefined
+                        photo_url: tip.photo ? tip.photo.prefix + 'height250' + tip.photo.suffix : undefined
                     };
                     reviews.push(review);
                 }
             })
-    
+
             retval.push({
                 rating: 'N/A',
                 number_of_reviews: 'N/A',
@@ -139,15 +159,44 @@ module.exports = {
                 foursquare_id: foursquare_id,
                 reviews: reviews
             });
-    
+
         }
         catch (e) {
             console.log("failed parse reviews foursquare" + e.message + e.stack)
         }
-    
-    
+
+        try {
+            if (json.response.venues[0].contact) {
+                metadata.contant = json.response.venues[0].contact;
+                if (json.response.venues[0].contact.instagram) {
+                    retval.push({
+                        rating: undefined,
+                        number_of_reviews: undefined,
+                        source: 'instagram',
+                        instagram_id: json.response.venues[0].contact.instagram,
+                        reviews: [],
+                        review_article: undefined,
+                        photos: {
+                            url: 'https://www.instagram.com/'+json.response.venues[0].contact.instagram+'/?hl=en',
+                            text: 'foto by owners on '
+                        }
+                    });
+                }
+            }
+            else {
+                console.log("failed to get contacts names of business from foursquare")
+            }
+         
+
+        }
+        catch (e) {
+            console.log("failed to get contacts names of business from foursquare" + e.message + e.stack)
+        }
+
+
+
         return retval;
     }
-    
-      
+
+
 }
