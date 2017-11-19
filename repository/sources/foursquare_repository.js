@@ -78,36 +78,34 @@ module.exports = {
 
         let retval = []
         try {
-            let menu_url = ''
+            let menu_url;
             try {
                 menu_url = json.response.venues[0].menu.mobileUrl;
             }
             catch (e) {
                 try {
-                    console.log("failed to get mobile menu foursquare" + e.message + e.stack)
                     menu_url = json.response.venues[0].menu.url;
                 }
                 catch (e) {
                     try {
-                        console.log("failed to get normal menu foursquare" + e.message + e.stack)
                         menu_url = json.response.venues[0].menu.externalUrl;
                     }
                     catch (e) {
-                        console.log("failed to get eternal link menu foursquare" + e.message + e.stack)
-                        throw e;
+                        console.log("failed to get menu from foursquare")
                     }
                 }
             }
-
-            retval.push({
-                rating: 'N/A',
-                number_of_reviews: 'N/A',
-                source: 'foursquare',
-                foursquare_id: foursquare_id,
-                menu: {
-                    url: menu_url
-                }
-            });
+            if (menu_url) {
+                retval.push({
+                    rating: 'N/A',
+                    number_of_reviews: 'N/A',
+                    source: 'foursquare',
+                    foursquare_id: foursquare_id,
+                    menu: {
+                        url: menu_url
+                    }
+                });
+            }
         }
         catch (e) {
             console.log("failed parse menu foursquare" + e.message + e.stack)
@@ -177,7 +175,7 @@ module.exports = {
                         reviews: [],
                         review_article: undefined,
                         photos: {
-                            url: 'https://www.instagram.com/'+json.response.venues[0].contact.instagram+'/?hl=en',
+                            url: 'https://www.instagram.com/' + json.response.venues[0].contact.instagram + '/?hl=en',
                             text: 'foto by owners on '
                         }
                     });
@@ -186,7 +184,7 @@ module.exports = {
             else {
                 console.log("failed to get contacts names of business from foursquare")
             }
-         
+
 
         }
         catch (e) {
