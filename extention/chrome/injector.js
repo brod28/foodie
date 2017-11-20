@@ -19,10 +19,21 @@ console.log('foodies extention started');
 
 
 
-var script = document.createElement('script');
-script.src = chrome.extension.getURL('foodie_script.js');
-document.body.insertBefore (script, document.body.firstChild);
-console.log('foodies foodie_script added');
 
 
-console.log('foodies extention ended');
+//alert(window.location.href);
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var script = document.createElement('script');
+      script.innerHTML  = 'var foodie_config='+this.responseText;
+      document.body.insertBefore (script, document.body.firstChild);
+      var script = document.createElement('script');
+      script.src = chrome.extension.getURL('foodie_script.js');
+      document.body.insertBefore (script, document.body.firstChild);
+      console.log('foodies foodie_script added');
+      console.log('foodies extention ended');
+          }
+  };
+xhr.open("GET", 'https://foodieforfoodie.herokuapp.com/api/search?name=pizza east', true);
+xhr.send();

@@ -48,7 +48,7 @@ class RatingFiveStars extends Component {
                 ''
                 :
                 <p>
-                  based on {number_of_reviews} reviews 
+                  based on {number_of_reviews} {this.props.text_reviews} 
                 </p>
                 }
       </div>)

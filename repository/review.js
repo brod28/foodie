@@ -14,7 +14,7 @@ const tripexpert_repository = require('./sources/tripexpert_repository');
 
 module.exports = {
     get_reviews(request) {
-        
+
         // creating object to return
         let retVal = {
             metadata: undefined,
@@ -108,7 +108,7 @@ module.exports = {
                     resolve('Success!');
                 }, 80)
             }));
-            
+
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     console.log("start tripexpert");
@@ -124,28 +124,28 @@ module.exports = {
                 }, 123)
             }));
 
-          /*  promises.push(new Promise(function (resolve, reject) {
-                setTimeout(function () {
-                    console.log("start NYC");
-                    try {
-                        let NYC_review = newYorkTimes_repository.get_NewYorkTimes(GoogleLocationInformation.metadata);
-                        if (NYC_review) {
-                            retVal.reviews.push(NYC_review);
-                        }
-                    }
-                    catch (e) {
-                        console.log("NYT for " + request.name + "reviews did work error:" + e.message + e.stack)
-                    }
-                    resolve('Success!');
-                    console.log("end NYC");
-                }, 150)
-            }));*/
+            /*  promises.push(new Promise(function (resolve, reject) {
+                  setTimeout(function () {
+                      console.log("start NYC");
+                      try {
+                          let NYC_review = newYorkTimes_repository.get_NewYorkTimes(GoogleLocationInformation.metadata);
+                          if (NYC_review) {
+                              retVal.reviews.push(NYC_review);
+                          }
+                      }
+                      catch (e) {
+                          console.log("NYT for " + request.name + "reviews did work error:" + e.message + e.stack)
+                      }
+                      resolve('Success!');
+                      console.log("end NYC");
+                  }, 150)
+              }));*/
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     console.log("start foursquare");
                     try {
-                        let foursquare_review=foursquare_repository.get_foursquare(GoogleLocationInformation.metadata);
+                        let foursquare_review = foursquare_repository.get_foursquare(GoogleLocationInformation.metadata);
                         retVal.reviews = retVal.reviews.concat(foursquare_review);
                     }
                     catch (e) {
@@ -171,6 +171,7 @@ module.exports = {
         else {
             console.log("google for " + request.name + " didn't find anything")
         }
+       
         return retVal;
     }
 }

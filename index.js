@@ -46,6 +46,16 @@ restService.get('/api/check_image', function (req, res) {
         });
 });
 
+
+restService.get('/api/ext_config', function (req, res) {
+    let retVal=[{
+        type:"include",
+        pattern:'restaurant',
+        text:'check it'
+    }];
+    
+    res.json({ data: retVal });
+});    
 restService.get('/api/search', function (req, res) {
     console.log("request search with for " + req.param('name'))
     let request = {

@@ -24,9 +24,11 @@ var help_me=function(){
     console.log('foodies iframe added');
     console.log('foodies help_me ended');  
 }
-    
+
+
+
 var div  = document.createElement ("div");
-div.innerHTML = '<button onclick="help_me()">help me</button>';
+div.innerHTML = '<button onclick="help_me()">check it</button>';
 div.setAttribute("style", "position: fixed;top: 0px;right: 0;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
 div.setAttribute("id", "foodie_to_foodie_div");
 document.body.insertBefore (div, document.body.firstChild);
