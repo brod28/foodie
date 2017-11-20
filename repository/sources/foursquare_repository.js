@@ -8,31 +8,23 @@ module.exports = {
     get_foursquare(metadata) {
         let json;
         let request = require('request');
-        request({
-            url: 'https://api.foursquare.com/v2/venues/search',
-            method: 'GET',
-            qs: {
-                client_id: 'A32K1QWL1TY4TTFSSQHQHSGWC0LC3QY5MGLDT5ZYFHPWFIDT',
-                client_secret: '5HKEFHMEXLRDORXJ0AJEI31UZURUQN3ADTXREZE3FIH13MLT',
-                ll: metadata.location.lat + ',' + metadata.location.lng,
-                query: metadata.name,
-                v: '20170801',
-                radius: '200'
-            }
-        }, function (err, res, body) {
-            if (err) {
-                console.log('failed foursquare search' + err);
-            } else {
-                json = JSON.parse(body);
-            }
-        });
-
-        while (!json) {
-            require('deasync').sleep(250);
+        let foursquare_id;
+        try{
+            json=getId(metadata,request,metadata.name);
+            foursquare_id=json.response.venues[0].id
         }
-
-
-        let foursquare_id = json.response.venues[0].id;;
+        catch(e){
+            try{
+                console.log("failed foursquare id for "+metadata.name+" "+e.message)
+                json=getId(metadata,request,metadata.facebook_name);
+                foursquare_id=json.response.venues[0].id
+            }
+            catch(ex){
+                console.log("failed foursquare id for "+metadata.website+" "+ex.message+ex.stack)
+                throw ex;                
+            }                
+        }
+        
         let json_photos;
         let json_tips;
         request({
@@ -149,14 +141,15 @@ module.exports = {
                     reviews.push(review);
                 }
             })
-
-            retval.push({
-                rating: 'N/A',
-                number_of_reviews: 'N/A',
-                source: 'foursquare',
-                foursquare_id: foursquare_id,
-                reviews: reviews
-            });
+            if(reviews.length>0){
+                retval.push({
+                    rating: 'N/A',
+                    number_of_reviews: 'N/A',
+                    source: 'foursquare',
+                    foursquare_id: foursquare_id,
+                    reviews: reviews
+                });
+            }
 
         }
         catch (e) {
@@ -196,5 +189,35 @@ module.exports = {
         return retval;
     }
 
+
+}
+
+let getId=(metadata,request,name)=>{
+    let json;
+    request({
+        url: 'https://api.foursquare.com/v2/venues/search',
+        method: 'GET',
+        qs: {
+            client_id: 'A32K1QWL1TY4TTFSSQHQHSGWC0LC3QY5MGLDT5ZYFHPWFIDT',
+            client_secret: '5HKEFHMEXLRDORXJ0AJEI31UZURUQN3ADTXREZE3FIH13MLT',
+            ll: metadata.location.lat + ',' + metadata.location.lng,
+            query: name,
+            v: '20170801',
+            radius: '200'
+        }
+    }, function (err, res, body) {
+        if (err) {
+            console.log('failed foursquare search' + err);
+        } else {
+            json = JSON.parse(body);
+        }
+    });
+
+    while (!json) {
+        require('deasync').sleep(250);
+    }
+
+
+    return json;
 
 }

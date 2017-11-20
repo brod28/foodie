@@ -29,36 +29,37 @@ module.exports = {
         });
     
         let businessMatchYelp;
+        let yelp_id;
         // serch for yelp business id
         try {
-            yelp.search({
-                term: metadata.name,
-                location: metadata.area_near,
-            },
-                function (error, data) {
-                    businessMatchYelp = data;
-                }
-            );
+            businessMatchYelp=get_id(yelp,metadata.name,metadata)
     
-            while (businessMatchYelp === undefined) {
-                require('deasync').runLoopOnce();
-            }
+            yelp_id=businessMatchYelp.businesses[0].id;
         }
         catch (e) {
-            console.log("failed yelp search " + e.message + e.stack);
-            throw e;
+            try {
+                console.log("failed yelp search for " +metadata.name + e.message);
+                businessMatchYelp=get_id(yelp,metadata.facebook_name,metadata)
+                yelp_id=businessMatchYelp.businesses[0].id;
+            }
+            catch (ex) {
+                console.log("failed yelp search for facebook name "+metadata.facebook_name + ex.message + ex.stack);
+                throw ex;
+            }
         }
     
         let businessYelp;
         let reviewsYelp;
         // search for yelp business details and reviews (2 different calls)
         try {
-            //https://github.com/Yelp/yelp-api-v3/blob/master/docs/api-references/businesses-id-reviews.md
-            yelp.businesses(businessMatchYelp.businesses[0].id, function (error, data) { businessYelp = data; });
+            yelp.businesses(yelp_id, function (error, data) { 
+                businessYelp = data; 
+            });
     
     
-            //https://github.com/Yelp/yelp-api-v3/blob/master/docs/api-references/businesses-id.md
-            yelp.businessesReviews(businessMatchYelp.businesses[0].id, function (error, data) { reviewsYelp = data; });
+            yelp.businessesReviews(yelp_id, function (error, data) { 
+                reviewsYelp = data; 
+            });
     
             while (businessYelp === undefined || reviewsYelp === undefined) {
                 require('deasync').runLoopOnce();
@@ -92,4 +93,21 @@ module.exports = {
         return retval;
     }
       
+}
+
+let get_id=(yelp,name,metadata)=>{
+    let businessMatchYelp;
+    yelp.search({
+        term: name,
+        location: metadata.area_near,
+    },
+        function (error, data) {
+            businessMatchYelp = data;
+        }
+    );
+
+    while (businessMatchYelp === undefined) {
+        require('deasync').runLoopOnce();
+    }
+    return businessMatchYelp;
 }

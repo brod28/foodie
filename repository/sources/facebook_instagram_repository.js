@@ -24,15 +24,18 @@ module.exports = {
         let facebook_id;
         // facebook search for  business id
         try {
-            let request_get = {
-                url: 'https://graph.facebook.com/search?type=place&q=' + metadata.name + '&center=' + metadata.location.lat + ',' + metadata.location.lng + '&distance=200&fields=name,checkins,picture&access_token=' + access_token
-            };
-            let response = context_common.http.request_get(request_get);
-            facebook_id = JSON.parse(response).data[0].id;
+            facebook_id = search(metadata.name ,metadata,access_token);
         }
         catch (e) {
-            console.log("search failed facebook error " + e.message + e.stack);
-            throw e;
+            try{
+                console.log("search failed for "+metadata.name +" facebook error " + e.message);
+                let website=metadata.website.split('://')[1].replace('www.','').split('.co')[0];
+                facebook_id = search(website ,metadata,access_token);
+            }
+            catch (ex) {
+                console.log("search failed for "+metadata.website+"facebook error " + e.message + e.stack);
+                throw ex;
+            }
         }
         let facebook_data;
         try {
@@ -46,7 +49,9 @@ module.exports = {
             console.log("get info failed facebook error " + e.message + e.stack);
             throw e;
         }
-    
+
+        metadata.facebook_name=facebook_data.name ;
+        
         let retval = [];
         retval.push({
             rating: facebook_data.overall_star_rating,
@@ -72,4 +77,13 @@ module.exports = {
     }
     
       
+}
+
+
+let search=(name,metadata,access_token)=>{
+    let request_get = {
+        url: 'https://graph.facebook.com/search?type=place&q=' + name + '&center=' + metadata.location.lat + ',' + metadata.location.lng + '&distance=200&fields=name,checkins,picture&access_token=' + access_token
+    };
+    let response = context_common.http.request_get(request_get);
+    return JSON.parse(response).data[0].id;
 }

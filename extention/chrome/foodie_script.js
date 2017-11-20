@@ -25,22 +25,41 @@ var help_me=function(){
     console.log('foodies help_me ended');  
 }
 
-
-
-var div  = document.createElement ("div");
-div.innerHTML = '<button onclick="help_me()">check it</button>';
-div.setAttribute("style", "position: fixed;top: 0px;right: 0;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
-div.setAttribute("id", "foodie_to_foodie_div");
-document.body.insertBefore (div, document.body.firstChild);
-console.log('foodies div added');
-
-    
-function doSomethingWithSelectedText(e) {
-    var selectedText = getSelectionText();
+let addButton=function(text){
+    var div  = document.createElement ("div");
+    div.innerHTML = '<button onclick="help_me()">'+text+'</button>';
+    div.setAttribute("style", "position: fixed;top: 0px;right: 0;overflow: auto; z-index: 2147483647;background-color:whitesmoke;");
+    div.setAttribute("id", "foodie_to_foodie_div");
+    document.body.insertBefore (div, document.body.firstChild);
+    console.log('foodies div added');    
 }
 
-window.document.onmouseup = doSomethingWithSelectedText;
-window.document.onkeyup = doSomethingWithSelectedText;
+
+let is_button=false;
+foodie_config.data.forEach(function(element){
+    if(element.type=="include"){
+        if(window.location.href.includes(element.pattern)){
+            addButton(element.text);
+            is_button=true;
+            console.log('foodies foodie_script button is there');
+        }
+    }
+})
+
+if(!is_button){
+    function doSomethingWithSelectedText(e) {
+        if(window.getSelection().toString()!=''){
+            addButton('Check It !!!');
+            console.log('foodies foodie_script button is there');    
+        } 
+    }
+    
+    window.document.onmouseup = doSomethingWithSelectedText;
+    window.document.onkeyup = doSomethingWithSelectedText;
+}
+
+
+    
 
 
 console.log('foodies foodie_script loaded');

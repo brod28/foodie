@@ -35,5 +35,5 @@ xhr.onreadystatechange = function() {
       console.log('foodies extention ended');
           }
   };
-xhr.open("GET", 'https://foodieforfoodie.herokuapp.com/api/search?name=pizza east', true);
+xhr.open("GET", 'https://foodieforfoodie.herokuapp.com/api/ext_config', true);
 xhr.send();

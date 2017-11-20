@@ -14,7 +14,8 @@ const tripexpert_repository = require('./sources/tripexpert_repository');
 
 module.exports = {
     get_reviews(request) {
-
+        console.log('start get data ' + new Date().getSeconds());
+        
         // creating object to return
         let retVal = {
             metadata: undefined,
@@ -43,13 +44,33 @@ module.exports = {
             catch (e) {
                 console.log("google for " + request.name + " reviews did work error:" + e.message + e.stack)
             }
-            console.log('start get data ' + new Date().getSeconds());
+
+
+
+            // get facebook/instagram reviews
+//            promises.push(new Promise(function (resolve, reject) {
+//                setTimeout(function () {
+                    console.log("start facebook"+ new Date().getSeconds());
+                    try {
+                        let facebook_instagram_review = facebook_instagram_repository.get_facebook_instagram(GoogleLocationInformation.metadata)
+                        retVal.reviews = retVal.reviews.concat(facebook_instagram_review);
+                    }
+                    catch (e) {
+                        console.log("facebook for " + request.name + "reviews did work error:" + e.message + e.stack)
+                    }
+                    console.log("end facebook"+ new Date().getSeconds());
+//                    resolve('Success!');
+//                }, 150)
+//            }));
+
+            console.log('start promises get data ' + new Date().getSeconds());
+            
             let promises = [];
             let IsPromisesDone = false;
             // get yelp reviews
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start yelp");
+                    console.log("start yelp"+ new Date().getSeconds());
                     try {
                         let yelp_review = yelp_repository.get_yelp(GoogleLocationInformation.metadata)
                         retVal.reviews.push(yelp_review);
@@ -57,7 +78,7 @@ module.exports = {
                     catch (e) {
                         console.log("yelp for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
-                    console.log("end yelp");
+                    console.log("end yelp"+ new Date().getSeconds());
                     resolve('Success!');
                 }, 100)
             }));
@@ -65,7 +86,7 @@ module.exports = {
             // get  zomato reviews
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start zomato");
+                    console.log("start zomato"+ new Date().getSeconds());
                     try {
                         let zomato_review = zomato_repository.get_zomato(GoogleLocationInformation.metadata)
                         retVal.reviews.push(zomato_review);
@@ -74,29 +95,14 @@ module.exports = {
                         console.log("zomato for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
                     resolve('Success!');
-                    console.log("end zomato");
+                    console.log("end zomato"+ new Date().getSeconds());
                 }, 100)
             }));
 
-            // get facebook/instagram reviews
-            promises.push(new Promise(function (resolve, reject) {
-                setTimeout(function () {
-                    console.log("start facebook");
-                    try {
-                        let facebook_instagram_review = facebook_instagram_repository.get_facebook_instagram(GoogleLocationInformation.metadata)
-                        retVal.reviews = retVal.reviews.concat(facebook_instagram_review);
-                    }
-                    catch (e) {
-                        console.log("facebook for " + request.name + "reviews did work error:" + e.message + e.stack)
-                    }
-                    console.log("end facebook");
-                    resolve('Success!');
-                }, 150)
-            }));
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start rest");
+                    console.log("start rest"+ new Date().getSeconds());
                     try {
                         let rest_review = rest_repository.get_rest(GoogleLocationInformation.metadata)
                         retVal.reviews = retVal.reviews.concat(rest_review);
@@ -104,14 +110,14 @@ module.exports = {
                     catch (e) {
                         console.log("rest for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
-                    console.log("end rest");
+                    console.log("end rest"+ new Date().getSeconds());
                     resolve('Success!');
                 }, 80)
             }));
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start tripexpert");
+                    console.log("start tripexpert"+ new Date().getSeconds());
                     try {
                         let tripexport_review = tripexpert_repository.get_tripexpert(GoogleLocationInformation.metadata)
                         retVal.reviews = retVal.reviews.concat(tripexport_review);
@@ -119,7 +125,7 @@ module.exports = {
                     catch (e) {
                         console.log("tripexpert for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
-                    console.log("end tripexpert");
+                    console.log("end tripexpert"+ new Date().getSeconds());
                     resolve('Success!');
                 }, 123)
             }));
@@ -143,7 +149,7 @@ module.exports = {
 
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    console.log("start foursquare");
+                    console.log("start foursquare"+ new Date().getSeconds());
                     try {
                         let foursquare_review = foursquare_repository.get_foursquare(GoogleLocationInformation.metadata);
                         retVal.reviews = retVal.reviews.concat(foursquare_review);
@@ -152,7 +158,7 @@ module.exports = {
                         console.log("foursquare for " + request.name + "reviews did work error:" + e.message + e.stack)
                     }
                     resolve('Success!');
-                    console.log("end foursquare");
+                    console.log("end foursquare"+ new Date().getSeconds());
                 }, 151)
             }));
 

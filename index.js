@@ -51,7 +51,7 @@ restService.get('/api/ext_config', function (req, res) {
     let retVal=[{
         type:"include",
         pattern:'restaurant',
-        text:'check it'
+        text:'Check It'
     }];
     
     res.json({ data: retVal });
