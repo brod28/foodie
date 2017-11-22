@@ -57,13 +57,26 @@ restService.get('/api/ext_config', function (req, res) {
     res.json({ data: retVal });
 });    
 restService.get('/api/search', function (req, res) {
-    console.log("request search with for " + req.param('name'))
+       console.log("request search with for " + req.param('name'))
     let request = {
-        name: req.param('name'),
+        name: req.param('name').replace(new RegExp("[0-9]?[0-9]?[0-9]?[0-9]?[0-9]."), "").replace(new RegExp("[0-9]?[0-9]?[0-9]?[0-9]?[0-9] ."), ""),
 
     };
     let retVal = repositor_location.search(request);
     res.json({ data: retVal });
+});
+
+
+restService.get('/api/tracer', function (req, res) {
+    console.log("trace " + req.param('query'))
+    var decode = require('decode-html');
+    
+    
+   
+    let query = decode(req.param('query')).split(',');
+
+    res.json({ data:"ok" });
+
 });
 
 restService.get('/api/reviews', function (req, res) {
