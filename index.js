@@ -75,7 +75,14 @@ restService.get('/api/tracer', function (req, res) {
    
     let query = decode(req.param('query')).split(',');
 
-    res.json({ data:"ok" });
+    query.forEach((element)=>{
+            let request = {
+                name: element,
+            };
+            element.search=repositor_location.search(request);
+        }
+    );
+    res.json({ data:query });
 
 });
 

@@ -80,7 +80,11 @@ function textSelected(e) {
         tracer=[];
         let elements=document.querySelectorAll(path);
         elements.forEach(function(element){
-            tracer.push(element.innerHTML);
+            let restaurant_name=element
+            .innerHTML.replace(new RegExp("[0-9]?[0-9]?[0-9]?[0-9]?[0-9]."), "")
+            .replace(new RegExp("[0-9]?[0-9]?[0-9]?[0-9]?[0-9] ."), "")
+            .trim()
+            tracer.push(restaurant_name);
         });
         tracer.push(path);
     
