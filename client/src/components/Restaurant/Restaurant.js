@@ -5,6 +5,8 @@ import PhotosandMore from './PhotosandMore/PhotosandMore'
 import Reviews from './Reviews/Reviews'
 import HeaderForPopup from '../Header/HeaderForPopup'
 import Menus from './Menus/Menus'
+import Friends from './Friends/Friends'
+
 import CountDown from '../Helpers/CountDown'
 import Summary from './Summary/Summary'
 import {
@@ -175,14 +177,7 @@ class Restaurant extends Component {
     }
     let friends = <p>Loading friends infirmation... </p>
     if (this.state.reviews) {
-
-      if (this.state.friends) {
-
-        friends = <p><a href={this.state.friends[0].review_friends.link} target="_blank">check if your friends visited here>>></a> </p>
-      }
-      else{
-        friends=<p></p>
-      }
+        friends = <Friends friends={this.state.friends} />
     }
     let reviews4andMore = <p>Loading reviews... </p>
     if (this.state.reviews) {
