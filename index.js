@@ -105,6 +105,8 @@ restService.use(express.static(path.join(__dirname, 'client/build')));
 // match one above, send back React's index.html file.
 restService.get('*', (req, res) => {
     console.log("request react")
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
