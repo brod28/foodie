@@ -111,6 +111,7 @@ restService.use(express.static(path.join(__dirname, 'client/build')));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 restService.get('*', (req, res) => {
+    console.log("request for react files")
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
