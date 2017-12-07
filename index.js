@@ -8,58 +8,56 @@ const repositor_location = require('./repository/location.js');
 const context_common = require('./helpers/common.js');
 const restService = express();
 
-
 restService.use(bodyParser.json());
 
 // set the view engine to ejs
 restService.set('view engine', 'ejs');
 
 // use res.render to load up an ejs view file
+
+
 restService.use('/static', express.static('assets'))
-
-
 
 restService.get('/api/check_image', function (req, res) {
 
     let Tesseract = require('tesseract.js')
-    /*
-     Tesseract.recognize('assets/image-text1.jpg')
-         .then(function (result) {
-             console.log(result)
-         })
-         .catch(function (e) {
-             console.log(e)
-         })
-    */
-
-    Tesseract.recognize("assets/image-text1.jpg", {
-        lang: 'eng',
-        tessedit_char_blacklist: 'e'
-    })
-        .progress(function (message) {
-            console.log(message)
-        })
+   /*
+    Tesseract.recognize('assets/image-text1.jpg')
         .then(function (result) {
             console.log(result)
         })
         .catch(function (e) {
             console.log(e)
+        })
+   */
+  
+    Tesseract.recognize("assets/image-text1.jpg", {
+        lang: 'eng',
+        tessedit_char_blacklist: 'e'
+    })
+        .progress(function (message) { 
+            console.log(message) 
+        })
+        .then(function (result) { 
+            console.log(result) 
+        }) 
+        .catch(function (e) { 
+            console.log(e) 
         });
 });
 
 
 restService.get('/api/ext_config', function (req, res) {
-    let retVal = [{
-        type: "include",
-        pattern: 'restaurant',
-        text: 'Check It'
+    let retVal=[{
+        type:"include",
+        pattern:'restaurant',
+        text:'Check It'
     }];
-
+    
     res.json({ data: retVal });
-});
-
+});    
 restService.get('/api/search', function (req, res) {
-    console.log("request search with for " + req.param('name'))
+       console.log("request search with for " + req.param('name'))
     let request = {
         name: req.param('name').replace(new RegExp("[0-9]?[0-9]?[0-9]?[0-9]?[0-9]."), "").replace(new RegExp("[0-9]?[0-9]?[0-9]?[0-9]?[0-9] ."), ""),
 
@@ -70,26 +68,27 @@ restService.get('/api/search', function (req, res) {
 
 
 restService.get('/api/tracer', function (req, res) {
-
     console.log("trace " + req.param('query'))
     var decode = require('decode-html');
-
-
-
+    
+    
+   
     let query = decode(req.param('query')).split(',');
 
-    query.forEach((element) => {
-        let request = {
-            name: element,
-        };
-        element.search = repositor_location.search(request);
-    }
+    query.forEach((element)=>{
+            let request = {
+                name: element,
+            };
+            element.search=repositor_location.search(request);
+        }
     );
-    res.json({ data: query });
+    res.json({ data:query });
 
 });
 
 restService.get('/api/reviews', function (req, res) {
+
+
     console.log("request review with for " + req.param('name'))
     let request = {
         name: req.param('name')
@@ -108,10 +107,8 @@ restService.use(express.static(path.join(__dirname, 'client/build')));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 restService.get('*', (req, res) => {
-    console.log("request for react files")
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    console.log("request react")
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 
@@ -128,7 +125,6 @@ restService.listen((process.env.PORT || 5000), function () {
                 });        */
     }
 });
-
 /*
 
 let benivo_source_code=[];
