@@ -11,7 +11,7 @@ module.exports = {
         try {
             //google search 1
             let request_get = {
-                url: 'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:9tp-ocrbvdw&q=' + metadata.description + ' Rating'
+                url: 'https://www.googleapis.com/customsearch/v1?key=AIzaSyDvPk7IVCdmEVXDHF9urU9DEB-FYnTpkcE&cx=008786984061848902811:9tp-ocrbvdw&q=' + metadata.description + ' Rating'
             };
             let response = context_common.http.request_get(request_get);
             google_search_result.items = google_search_result.items.concat(JSON.parse(response).items);
@@ -24,7 +24,7 @@ module.exports = {
         try {
             //google search 2
             let request_get = {
-                url: 'https://www.googleapis.com/customsearch/v1?key=AIzaSyAZnGD9oKSiQxQdBBSDRRMSAqvDg__sfgQ&cx=008786984061848902811:eq7nh5o0slm&q=' + metadata.description + ' Rating'
+                url: 'https://www.googleapis.com/customsearch/v1?key=AIzaSyDvPk7IVCdmEVXDHF9urU9DEB-FYnTpkcE&cx=008786984061848902811:eq7nh5o0slm&q=' + metadata.description + ' Rating'
             };
             let response = context_common.http.request_get(request_get);
             google_search_result.items = google_search_result.items.concat(JSON.parse(response).items);

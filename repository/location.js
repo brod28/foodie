@@ -13,7 +13,7 @@ function get_google(name,location){
     let retVal=[];
     try{
         let get_request={
-            url:'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+name+'&types=establishment&location='+location+'&radius=500&key=AIzaSyC_jyDsWS4RloJpkkqctnIc8SVirGIYgjY'
+            url:'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+name+'&types=establishment&location='+location+'&radius=500&key=AIzaSyDvPk7IVCdmEVXDHF9urU9DEB-FYnTpkcE'
         };
         let response=context_common.http.request_get(get_request)
         let json;
