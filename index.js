@@ -9,13 +9,6 @@ const context_common = require('./helpers/common.js');
 const restService = express();
 
 
-restService.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    console.log('Access-Control-Allow-Origin');
-    next();
-});
-
 restService.use(bodyParser.json());
 
 // set the view engine to ejs
