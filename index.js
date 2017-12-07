@@ -15,8 +15,6 @@ restService.use(bodyParser.json());
 restService.set('view engine', 'ejs');
 
 // use res.render to load up an ejs view file
-
-
 restService.use('/static', express.static('assets'))
 
 
@@ -59,6 +57,7 @@ restService.get('/api/ext_config', function (req, res) {
 
     res.json({ data: retVal });
 });
+
 restService.get('/api/search', function (req, res) {
     console.log("request search with for " + req.param('name'))
     let request = {
@@ -91,8 +90,6 @@ restService.get('/api/tracer', function (req, res) {
 });
 
 restService.get('/api/reviews', function (req, res) {
-
-
     console.log("request review with for " + req.param('name'))
     let request = {
         name: req.param('name')
