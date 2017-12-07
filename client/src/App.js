@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import SearchResult from './components/SearchResult/SearchResult';
 import Restaurant from './components/Restaurant/Restaurant';
+import MyPlaces from './components/MyPlaces/MyPlaces';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -23,6 +25,9 @@ class App extends Component {
       
       <Router>
         <div className="App">
+          <Route path="/myplaces" render={({ match }) => (
+            <MyPlaces />
+          )} />
           <Route path="/search/:name" render={({ match }) => (
             <SearchResult name={match.params.name}>
             </SearchResult>
