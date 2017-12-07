@@ -8,7 +8,7 @@ module.exports = {
     get_google(GoogleLocationInformation) {
         // get information for location from google 
         let get_request = {
-            url: 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + GoogleLocationInformation.place_id + '&key=AIzaSyC_jyDsWS4RloJpkkqctnIc8SVirGIYgjY'
+            url: 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' + GoogleLocationInformation.place_id + '&key=AIzaSyDvPk7IVCdmEVXDHF9urU9DEB-FYnTpkcE'
         };
     
         let response;
