@@ -62,16 +62,6 @@ module.exports = {
             review_article: undefined
         })
         retval.push({
-            rating: facebook_data.overall_star_rating,
-            number_of_reviews: facebook_data.rating_count,
-            source: 'facebook',
-            facebook_id: facebook_id,
-            reviews: [],
-            review_friends: {
-                link:`https://www.facebook.com/pg/${facebook_id}/community/?ref=page_internal`
-            }
-        })
-        retval.push({
             rating: undefined,
             number_of_reviews: undefined,
             source: 'instagram',

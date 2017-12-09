@@ -99,7 +99,7 @@ module.exports = {
                 }, 100)
             }));
 
-/*
+            /*
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     console.log("start rest"+ new Date().getSeconds());
@@ -114,7 +114,7 @@ module.exports = {
                     resolve('Success!');
                 }, 80)
             }));
-*/
+            */
             promises.push(new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     console.log("start tripexpert"+ new Date().getSeconds());
